@@ -13,3 +13,5 @@ $ npx tailwindcss init
 @tailwind components;
 @tailwind utilities;
 ```"# industrialtoursservicesectorclient" 
+"# wowfeesclient" 
+"# wowfeesclient" 
