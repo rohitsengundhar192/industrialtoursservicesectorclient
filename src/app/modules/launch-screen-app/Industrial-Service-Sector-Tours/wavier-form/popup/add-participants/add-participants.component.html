@@ -1,0 +1,284 @@
+<div class="space-y-1 _container">
+  <div class="space-y-5">
+    <mat-toolbar class="component--dialog-box__custom-toolbar">
+      <span class="font-small-in-size">Add Participants</span>
+      <span class="example-spacer"></span>
+      <button mat-icon-button class="flex items-center justify-center">
+        <mat-icon (click)="onNoClick()">close</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <div class="dialog-container">
+      <div class="space-y-2 dialog-content">
+        <div class="w-full flex items-center gap-2 justify-center">
+          <div>
+            <span class="secondary-heading">Participant User Category:</span>
+          </div>
+
+          <div>
+            <span class="para-bold">{{ category_name }}</span>
+          </div>
+        </div>
+
+        <!--Selected student disaplay-->
+        <!--new-->
+        <div class="_container">
+          <div class="content">
+            <div class="">
+              <div class="content-body" fxLayoutGap="5px" fxLayout="column">
+                <div class="contact-area">
+                  <div class="search">
+                    <div class="pt-2">
+                      <mat-form-field
+                        appearance="outline"
+                        class="w-full component--mat-form-field__custom-input"
+                      >
+                        <mat-label>Search User </mat-label>
+                        <input
+                          matInput
+                          placeholder=""
+                          [autocomplete]="'off'"
+                          [(ngModel)]="searchWords"
+                          [ngModelOptions]="{ standalone: true }"
+                        />
+                        <mat-icon matSuffix class="text-primary"
+                          >search</mat-icon
+                        >
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="contact-list">
+                    <!-- |filter:searchContact -->
+                    <!-- use this above -->
+                    <div class="flex gap-2 items-center justify-end mr-[20px]">
+                      <div>
+                        <span class="para-bold">Select All Users</span>
+                      </div>
+
+                      <div>
+                        <mat-checkbox
+                          (change)="
+                            $event ? masterToggle() : null; changedata($event)
+                          "
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="
+                            selection.hasValue() && !isAllSelected()
+                          "
+                        >
+                        </mat-checkbox>
+                      </div>
+                    </div>
+                    <ng-container
+                      *ngFor="
+                        let item of !searchWords
+                          ? contact_addstudents
+                          : searchWord;
+                        let i = index
+                      "
+                    >
+                      <!-- let item of !searchWords ? studentDatas : searchWord; -->
+                      <div
+                        style="margin: 5px 5px 5px 0px"
+                        class="profile cursor-pointer flex gap-[2px] h-[35px]"
+                        fxLayout="row wrap"
+                        fxLayoutAlign="start center"
+                      >
+                        <!-- <img [src]="item.image" alt="" /> -->
+                        <div class="ml-[5px] mt-[3px]">
+                          <div>
+                            <span class="primary-heading"
+                              >{{ item.first_name }}
+                            </span>
+                            <span class="primary-heading">{{
+                              item.last_name
+                            }}</span>
+                          </div>
+                        </div>
+
+                        <span style="flex: 1 1 auto"></span>
+                        <mat-checkbox
+                          class="mr-[15px] mt-[5px]"
+                          (click)="$event.stopPropagation()"
+                          (change)="selection.toggle(item); changedata($event)"
+                          [checked]="selection.isSelected(item)"
+                        >
+                        </mat-checkbox>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Ends selected dtudent diaplay-->
+
+        <div class="space-y-2 p-2">
+          <!--slect-->
+          <!--select volunteer-->
+
+          <div class="">
+            <form [formGroup]="firstFormGroup">
+              <div class="flex flex-col re">
+                <mat-form-field
+                  appearance="outline"
+                  class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[35%]"
+                >
+                  <mat-label class="para-bold"
+                    >Select Volunteer User Category</mat-label
+                  >
+                  <mat-select
+                    appearance="outline"
+                    formControlName="sel1"
+                    required
+                  >
+                    <mat-option
+                      *ngFor="let dates of category"
+                      [value]="dates"
+                      (click)="selectgetdatavolunteer(dates)"
+                    >
+                      <span class="para-bold">
+                        {{ dates.user_category_name }}</span
+                      >
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>Volunteer User Category is required</mat-error>
+                </mat-form-field>
+              </div>
+            </form>
+          </div>
+
+          <!--volunteer name-->
+          <div class="">
+            <form [formGroup]="firstFormGroup">
+              <div class="flex flex-col re">
+                <mat-form-field
+                  appearance="outline"
+                  class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[35%]"
+                >
+                  <mat-label class="primary-heading"
+                    >Select Volunteer Name</mat-label
+                  >
+                  <mat-select
+                    appearance="outline"
+                    formControlName="sel2"
+                    required
+                  >
+                    <mat-option
+                      *ngFor="let dates of selectvolunteerlist"
+                      [value]="dates"
+                      (click)="selectvolun(dates)"
+                    >
+                      <span class="primary-heading mr-[5px]">{{
+                        dates.first_name
+                      }}</span>
+                      <span class="primary-heading">{{ dates.last_name }}</span>
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>Volunteer Name is required</mat-error>
+                </mat-form-field>
+              </div>
+            </form>
+          </div>
+          <!--Ends select volunteer-->
+
+          <!--Authorizer-->
+
+          <!--select Authorizer-->
+
+          <div class="">
+            <form [formGroup]="firstFormGroup">
+              <div class="flex flex-col re">
+                <mat-form-field
+                  appearance="outline"
+                  class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[35%]"
+                >
+                  <mat-label class="para-bold"
+                    >Select Authorized HOD/Institution Head
+                  </mat-label>
+                  <mat-select
+                    appearance="outline"
+                    formControlName="sel3"
+                    required
+                  >
+                    <mat-option
+                      *ngFor="let dates of category_auth_alone"
+                      [value]="dates"
+                      (click)="selectgetdataauthorizer(dates)"
+
+                    >
+                      <span class="para-bold">
+                        {{ dates.user_category_name }}</span
+                      >
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    >Authorized HOD/Institution Head is required</mat-error
+                  >
+                </mat-form-field>
+              </div>
+            </form>
+          </div>
+
+          <!--Authorizer name-->
+          <div class="">
+            <form [formGroup]="firstFormGroup">
+              <div class="flex flex-col re">
+                <mat-form-field
+                  appearance="outline"
+                  class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[35%]"
+                >
+                  <mat-label class="primary-heading"
+                    >Authorized HOD/Institution Head Name</mat-label
+                  >
+                  <mat-select
+                    appearance="outline"
+                    formControlName="sel4"
+                    required
+                  >
+                    <mat-option
+                      *ngFor="let dates of selectedauthorizerlist"
+                      [value]="dates"
+                      (click)="selectauth(dates)"
+                    >
+                      <span class="primary-heading mr-[5px]">{{
+                        dates.first_name
+                      }}</span>
+                      <span class="primary-heading">{{ dates.last_name }}</span>
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    >Authorized HOD/Institution Head Name is required</mat-error
+                  >
+                </mat-form-field>
+              </div>
+            </form>
+          </div>
+          <!--Ends select Authorizer-->
+          <div class="">
+            <button
+              type="submit"
+              class="primary-button float-right xs:text-[12px]"
+              mat-raised-button
+              [disabled]="firstFormGroup.invalid || disablebtn"
+              (click)="save()"
+            >
+              SAVE
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="button-container">
+        <button
+          type="submit"
+          class="primary-button xs:text-[12px] floating-button"
+          mat-raised-button
+          [disabled]="firstFormGroup.invalid || disablebtn"
+          (click)="save()"
+        >
+          SAVE
+        </button>
+      </div> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,411 @@
+<!--Over All-->
+<div>
+  <div class="space-y-4 mt-[15px]">
+    <div class="w-full gt-xs:flex items-center gap-2 lt-xs:space-y-2">
+      <div class="">
+        <span class="para-bold">List of Uploaded Forms:</span>
+      </div>
+      <!--select-->
+      <div>
+        <form [formGroup]="firstFormGroup">
+          <div class="flex flex-col re">
+            <mat-form-field
+              appearance="outline"
+              class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[140%]"
+            >
+              <mat-label class="">Select User Category</mat-label>
+              <mat-select
+                appearance="outline"
+                formControlName="category"
+                required
+                [(value)]="user_category_id"
+              >
+                <mat-option
+                  *ngFor="let dates of selectCategorylist"
+                  [value]="dates"
+                  (click)="select(dates)"
+                  [value]="dates"
+                >
+                  {{ dates.user_category_name }}
+                </mat-option>
+              </mat-select>
+              <mat-error>User Category is required</mat-error>
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!--Button-->
+    <div class="flex space-x-2 lt-sm:space-x-1">
+      <div *ngIf="disbtnupload">
+        <button
+          style="cursor: pointer"
+          class="primary-button"
+          mat-raised-button
+          [disabled]="btndisable"
+        >
+          <label for="upload-file">Upload Signed Form</label>
+        </button>
+      </div>
+
+      <div *ngIf="disbtnupload_1">
+        <button
+          style="cursor: pointer"
+          class="primary-button"
+          mat-raised-button
+          [disabled]="btndisable"
+        >
+          <input
+            type="file"
+            id="upload-file"
+            requiredFileType="pdf"
+            hidden
+            (change)="browseVideo($event)"
+            accept=".pdf,.jpg,.jpeg,.png"
+            style="cursor: pointer"
+          />
+          <label for="upload-file" style="cursor: pointer"
+            >Upload Signed Form</label
+          >
+        </button>
+      </div>
+
+      <div>
+        <button
+          style="cursor: pointer"
+          class="primary-button"
+          (click)="getfile()"
+          mat-raised-button
+          [disabled]="btndisable_view"
+        >
+          View Uploaded Form
+        </button>
+      </div>
+    </div>
+    <!--Table-->
+
+    <div>
+      <div
+        class="mat-elevation-z8 mt-2 table-responsive w-fitgt-xs:w-min laptop:w-[59%]"
+      >
+        <div id="pdfTable">
+          <table
+            id="excel_table"
+            matSort
+            mat-table
+            #table
+            [dataSource]="dataSource"
+            style="margin-left: auto; margin-right: auto"
+            class="component--mat-table__custom-table checklist-table table-bordered table-sm block"
+          >
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="col1">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  width: 100px;
+                  max-width: 200px;
+                  min-width: 150px;
+                  word-wrap: break-word;
+                  white-space: nowrap;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  vertical-align: middle;
+                  text-align: center;
+                  border-right: 1px solid #9a9a9a;
+                "
+              >
+                User Name
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element; let row"
+                style="text-align: left; padding-left: 5px"
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-items: center;
+                    align-items: center;
+                  "
+                >
+                  <mat-radio-group [(ngModel)]="tables">
+                    <mat-radio-button
+                      class=""
+                      [value]="element.user_id"
+                      (click)="radioBtnData(element); selection.toggle(element)"
+                    ></mat-radio-button>
+                  </mat-radio-group>
+                  <div style="display: flex"></div>
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: start;
+                      cursor: pointer;
+                    "
+                    (click)="isrowselectedfirstreply(row)"
+                    (click)="openUserProfile()"
+                  >
+                    <div>
+                      <span class="primary-heading">
+                        {{ element.first_name }}</span
+                      >
+                      <span class="primary-heading">
+                        {{ element.last_name }}</span
+                      >
+                    </div>
+                    <!-- <div>
+                        <span class="secondary-heading">
+                          {{ element.category }}</span
+                        >
+                      </div> -->
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container
+              matColumnDef="col3"
+              style="border-right: 1px solid #9a9a9a"
+            >
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  width: 150px;
+                  max-width: 200px;
+                  word-wrap: break-word;
+                  white-space: nowrap;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  vertical-align: middle;
+                  text-align: center;
+                  border-right: 1px solid #9a9a9a;
+                "
+              >
+                Authorized Volunteer Staff<br />
+                who shall travel <br />with the participants
+              </th>
+              <td
+                style="
+                  border-right: 1px solid #9a9a9a;
+                  text-align: left;
+                  padding-left: 10px;
+                "
+                mat-cell
+                *matCellDef="let element; let row"
+              >
+                <div
+                  class="grid whitespace-nowrap lt-sm:pr-3"
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: start;
+                    cursor: pointer;
+                  "
+                  (click)="isrowselectedfirstreplyauth(row)"
+                  (click)="openUserProfileauth()"
+                >
+                  <div class="flex gap-1 text-sm">
+                    <span class="primary-heading">
+                      {{ element?.voluteer_info?.first_name }}</span
+                    >
+                    <span class="primary-heading">
+                      {{ element?.voluteer_info?.last_name }}</span
+                    >
+                  </div>
+                  <!-- <span class="secondary-heading">
+                      {{ element?.auth?.category_aut }}</span
+                    > -->
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container
+              matColumnDef="col4"
+              style="border-right: 1px solid #9a9a9a"
+            >
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  width: 200px;
+                  max-width: 250px;
+                  word-wrap: break-word;
+                  white-space: nowrap;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  vertical-align: middle;
+                  text-align: center;
+                  border-right: 1px solid #9a9a9a;
+                "
+              >
+                Attachment <br />
+                Upload Status
+              </th>
+              <td
+                style="border-right: 1px solid #9a9a9a"
+                mat-cell
+                *matCellDef="let element"
+              >
+                <!-- <div style="text-align: left; padding-left: 10px">
+                    {{ element.cloud_id_name }}
+                  </div> -->
+                <div *ngIf="element.cloud_id_name != null">
+                  <img
+                    src="../../../../../../assets/images/att.png"
+                    class="h-10 w-10 ml-[25px]"
+                  />
+                </div>
+                <div class="ml-[10px]" *ngIf="element.cloud_id_name == null">
+                  <span class="para-bold">No Upload</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="col5">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  width: 150px;
+                  max-width: 200px;
+                  word-wrap: break-word;
+                  white-space: nowrap;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  vertical-align: middle;
+                  text-align: center;
+                "
+              >
+                Uploaded By <br />
+                (User Name, Date)
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div style="text-align: left; padding-left: 10px">
+                  <div *ngIf="element.upload_cloud_date != null">
+                    ( {{ element?.uploaded_data?.first_name }}
+                    {{ element?.uploaded_data?.last_name }}
+                    {{ element.upload_cloud_date | date : "d MMM y" }})
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="col6">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  width: 150px;
+                  max-width: 200px;
+                  word-wrap: break-word;
+                  white-space: nowrap;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  vertical-align: middle;
+                  text-align: center;
+                "
+              >
+                Unsigned Form <br />
+                Download DateTime
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div style="text-align: left; padding-left: 10px">
+                  {{ element.download_Datetime | date : "d MMM y h:mm a" }}
+                </div>
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+              style="text-align: center"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              (click)="selection.toggle(row); onRowClicked(row)"
+              (mouseover)="row.hovered = true"
+              (mouseout)="row.hovered = false"
+            ></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="6">
+                No data matching the filter
+                <!-- "{{ input.value }}" -->
+              </td>
+            </tr>
+          </table>
+        </div>
+        <mat-paginator
+          class="component--mat-pagination__size"
+          #paginator
+          #paginatorElement
+          [length]="dataSource.data.length"
+          [pageIndex]="0"
+          [pageSizeOptions]="[5, 10, 20]"
+          [pageSize]="5"
+          [allValue]="dataSource.data.length"
+          appAddAllToPaginator
+          (page)="pageChanged($event)"
+        >
+        </mat-paginator>
+        <span class="red-heading ml-[5px]"> * </span
+          ><span class="para "> Please select All in order to use filter </span>
+          <div class="flex bg-white-black" id="export_btn">
+            <div class="custom-mat-floating-label">
+              <mat-form-field
+                appearance="outline"
+                class="component--mat-form-field__custom-input pl-2"
+              >
+                <input
+                  placeholder="Filter"
+                  [disabled]="
+                    dataSource.data.length === 0 ||
+                    !(pageSize !== 5 && pageSize !== 10 && pageSize !== 20)
+                  "
+                  matInput
+                  (keyup)="applyFilter($event)"
+                  #input
+                />
+              </mat-form-field>
+            </div>
+            <div class="w-full flex justify-end">
+              <span class="p-5 export-btn" [matMenuTriggerFor]="menu"
+                >Export</span
+              >
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- Mat Menu -->
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="downloadAsPDF()">
+        <mat-icon>picture_as_pdf</mat-icon>
+        <span>Print / Export PDF</span>
+      </button>
+      <button mat-menu-item (click)="exportReport('sample.xlsx')">
+        <mat-icon>grid_on</mat-icon>
+        <span>Export SpreadSheet</span>
+      </button>
+      <button mat-menu-item (click)="exportReport('sample.csv')">
+        <mat-icon>grid_on</mat-icon>
+        <span>Export csv File</span>
+      </button>
+      <button mat-menu-item (click)="exportReport('sample.json')">
+        <mat-icon>grid_on</mat-icon>
+        <span>Export json</span>
+      </button>
+    </mat-menu>
+
+    <div class="hide">
+      <span>.</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+.bgc {
+  background-color: #3366ff;
+}
+.mat-form-field-wrapper {
+  padding-bottom: -0.65625em;
+}
+@import "global";
+
+.component--dialog-box__custom-toolbar {
+  &.mat-toolbar {
+    height: 27px;
+    background-color: #3366ff;
+    padding: 0 0 0 12px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 550;
+    .example-spacer {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+.flag {
+  position: relative;
+  width: 30px;
+  height: 20px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.india {
+  background: linear-gradient(#ff9933 33%, #fff 33%, #fff 66%, #138808 0);
+  display: grid;
+  place-items: center;
+}
+
+
+

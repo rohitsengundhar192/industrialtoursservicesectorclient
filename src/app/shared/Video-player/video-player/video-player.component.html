@@ -1,0 +1,15 @@
+<div class="" (contextmenu)="$event.preventDefault()">
+  <video
+    #videoPlayer
+    class="video-js"
+    preload="metadata"
+    controls
+    loop="true"
+    (timeupdate)="onTimeUpdate($event)"
+    (seeking)="onPickTimeStamp($event)"
+    width="640"
+    height="300"
+    style="width: 100%"
+    (loadedmetadata)="onGetVideoTotalDuration($event)"
+  ></video>
+</div>

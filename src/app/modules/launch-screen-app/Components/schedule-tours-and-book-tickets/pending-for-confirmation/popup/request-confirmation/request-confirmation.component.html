@@ -1,0 +1,171 @@
+<!--overAll-->
+<mat-toolbar class="component--dialog-box__custom-toolbar">
+  <span class="font-small-in-size">Request Confirmation</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="flex items-center justify-center">
+    <mat-icon (click)="onNoClick()">close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="p-2">
+  <!--First Text-->
+  <div class="text-justify">
+    <span class="secondary-heading">
+      If you have not got the confirmation of your industrial tour from
+    </span>
+
+    <span class="para-normal"> {{ map_location_display_name }}, </span>
+
+    <span class="secondary-heading">
+      you can try contacting the following representatives.
+    </span>
+  </div>
+
+  <!--Contact details-->
+  <div *ngIf="showdata" class="w-full" style="overflow: auto">
+    <!--First-->
+    <div
+      class="w-full gap-2 gt-xs:flex gt-xs:items-center gt-xs:justify-center gt-xs:gap-20"
+    >
+      <!--one-left-->
+      <div class="gt-xs: w-[50%] gt-xs:flex gt-xs:justify-end">
+        <!-- <span>First Content End </span> -->
+
+        <div>
+          <div>
+            <span class="primary-heading">{{ Apidata[0]?.first_name }} </span>
+            <span class="primary-heading ml-[3px]">{{
+              Apidata[0]?.last_name
+            }}</span>
+          </div>
+          <div>
+            <span class="para">{{
+              Apidata[0]?.category_names[0]?.c_name
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!--one-right-->
+
+      <div class="w-[50%] flex justify-start">
+        <!-- <span>First Content start </span> -->
+        <div>
+          <div>
+            <span class="para-bold">Mobile No.</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div
+              class="w-[125px] flex gt-xs:w-full gt-xs:flex items-center gap-2 border border-black"
+              style="border-radius: 20px; box-shadow: 1px 1px 1px grey"
+            >
+              <!--image-->
+              <div class="ml-[10px]">
+                <img
+                  src="../../../../../../../../assets/images/indiaflag.png"
+                  class="h-[20px] w-[20px]"
+                />
+              </div>
+              <!--contry code-->
+              <div>
+                <span class="ml-[5px] mr-[5px] secondary-heading"
+                  >+ {{ Apidata[0]?.registered_mobile_country_code }}</span
+                >
+              </div>
+            </div>
+            <div>
+              <div
+                class="w-full flex items-center gap-2 border border-black"
+                style="border-radius: 20px; box-shadow: 1px 1px 1px grey"
+              >
+                <!--image-->
+                <div class="ml-[10px] mr-[10px]">
+                  <span class="secondary-heading">
+                    {{ Apidata[0]?.registered_mobile_no }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--sec-->
+
+    <div
+      class="w-full gap-2 gt-xs:flex gt-xs:items-center gt-xs:justify-center gt-xs:gap-20"
+    >
+      <!--one-left-->
+      <div class="gt-xs: w-[50%] gt-xs:flex gt-xs:justify-end">
+        <!-- <span>First Content End </span> -->
+
+        <div>
+          <div>
+            <span class="primary-heading">{{ Apidata[1]?.first_name }} </span>
+            <span class="primary-heading ml-[3px]">{{
+              Apidata[1]?.last_name
+            }}</span>
+          </div>
+          <div>
+            <span class="para">{{
+              Apidata[1]?.category_names[0]?.c_name
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!--one-right-->
+
+      <div class="w-[50%] flex justify-start">
+        <!-- <span>First Content start </span> -->
+        <div>
+          <div>
+            <span class="para-bold">Mobile No.</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div
+              class="w-[125px] flex gt-xs:w-full gt-xs:flex items-center gap-2 border border-black"
+              style="border-radius: 20px; box-shadow: 1px 1px 1px grey"
+            >
+              <!--image-->
+              <div class="ml-[10px]">
+                <img
+                  src="../../../../../../../../assets/images/indiaflag.png"
+                  class="h-[20px] w-[20px]"
+                />
+              </div>
+              <!--contry code-->
+              <div>
+                <span class="ml-[5px] mr-[5px] secondary-heading"
+                  >+ {{ Apidata[1]?.registered_mobile_country_code }}</span
+                >
+              </div>
+            </div>
+            <div>
+              <div
+                class="w-full flex items-center gap-2 border border-black"
+                style="border-radius: 20px; box-shadow: 1px 1px 1px grey"
+              >
+                <!--image-->
+                <div class="ml-[10px] mr-[10px]">
+                  <span class="secondary-heading">
+                    {{ Apidata[1]?.registered_mobile_no }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--second text-->
+  <div class="text-justify">
+    <span class="secondary-heading"
+      >If you continue to get no response from the above representatives, you
+      have the option to cancel this schedule and you can try scheduling the
+      tour to another Industrial / Service Sector site.</span
+    >
+  </div>
+</div>

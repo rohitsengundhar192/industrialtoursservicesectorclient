@@ -1,0 +1,110 @@
+<!--overAll-->
+<mat-toolbar class="component--dialog-box__custom-toolbar">
+  <span class="font-small-in-size"
+    >Calendar Selection - Visit Available Days</span
+  >
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="flex items-center justify-center">
+    <mat-icon (click)="onNoClick()">close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="p-2 space-y-2">
+  <!--simple text-->
+  <div>
+    <span class="primary-heading"
+      >Click on Available Days to check the permitted TOUR timings at the
+      bottom.</span
+    >
+  </div>
+
+  <div class="w-full flex-col space-y-2 justify-center">
+    <div>
+      <mat-card class="w-[100%]">
+        <mat-calendar
+          [(selected)]="selected"
+          [dateClass]="dateClass"
+          style="border-collapse: separate; border-spacing: 5px"
+        ></mat-calendar>
+      </mat-card>
+    </div>
+
+    <!-- <div class="w-full xs:mt-4">
+      <div class="w-full space-y-2 gt-xs:flex items-center gap-20">
+        <div class="flex items-center space-x-2">
+          <div>
+            <mat-card class="bg-white card"></mat-card>
+          </div>
+          <div>
+            <span class="para">AVAILABLE</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <div>
+            <mat-card class="bg-rose-200 card"></mat-card>
+          </div>
+          <div>
+            <span class="para">Fully Booked</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <div>
+        <mat-card class="bg-red-500 card"></mat-card>
+      </div>
+      <div>
+        <span class="para">Not Available</span>
+      </div>
+    </div> -->
+  </div>
+
+  <div class="w-full flex items-center pb-2 justify-center">
+    <!-- <div class="flex justify-center">
+      first div
+      <div class="w-full flex gap-2 items-center">
+        <div class="flex items-center space-x-2">
+          <div>
+            <mat-card class="bg-red-600 card"></mat-card>
+          </div>
+          <div>
+            <span class="para">Holiday</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="flex justify-center">
+      second div
+      <div class="w-full flex gap-2 items-center">
+        <div class="flex items-center space-x-2">
+          <div>
+            <mat-card class="bg-rose-200 card"></mat-card>
+          </div>
+          <div>
+            <span class="para">Non Operational Days</span>
+          </div>
+        </div>
+  
+        <div class="flex items-center space-x-2">
+          <div>
+            <mat-card class="bg-yellow-300 card"></mat-card>
+          </div>
+          <div>
+            <span class="para">Available Days</span>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="flex items-center space-x-2">
+      <div>
+        <mat-card class="bg-yellow-300 card"></mat-card>
+      </div>
+      <div>
+        <span class="para">Available Days</span>
+      </div>
+    </div>
+  </div>
+</div>

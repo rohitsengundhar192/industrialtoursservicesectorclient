@@ -1,0 +1,18 @@
+<ng-container *ngIf="!hidecontent">
+  <div class="component--mat-tab__custom-style">
+    <mat-tab-group>
+      <!--First Tab-->
+      <mat-tab label="Book WOW Ticket">
+        <app-book-entry-ticket></app-book-entry-ticket>
+      </mat-tab>
+      <!--second Tab-->
+      <mat-tab label="Book Volunteer Ticket">
+        <app-book-vol-ticket></app-book-vol-ticket>
+      </mat-tab>
+      <!--Third Tab-->
+      <mat-tab label="Review Booked Tickets">
+        <app-review-booked-tickets></app-review-booked-tickets>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</ng-container>

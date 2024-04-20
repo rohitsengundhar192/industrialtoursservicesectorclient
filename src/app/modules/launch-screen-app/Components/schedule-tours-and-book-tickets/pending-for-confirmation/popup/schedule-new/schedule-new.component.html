@@ -1,0 +1,881 @@
+<!--overAll-->
+<mat-toolbar class="component--dialog-box__custom-toolbar">
+  <span class="font-small-in-size">Schedule New</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="flex items-center justify-center">
+    <mat-icon (click)="onNoClick()">close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-horizontal-stepper linear>
+  <!--step -1-->
+  <mat-step label="Step 1" [completed]="step1Complete">
+    <!-- ... Your Step 1 content ... -->
+    <!--Full page-->
+    <div class="space-y-4">
+      <form [formGroup]="firstForm">
+        <!--basic line-->
+        <div class="text-justify mb-[10px]">
+          <span class="primary-heading"
+            >Please pick the Industrial / Service Sector site for which you plan
+            the Tour:</span
+          >
+        </div>
+        <!--Country and Industry site select-->
+        <div class="mt-[5px]">
+          <div class="flex xs:flex-col xs:w-full">
+            <div class="w-full">
+              <form
+                #ngForm="ngForm"
+                [formGroup]="firstFormGroup"
+                (ngSubmit)="onAddressFormSubmit(firstFormGroup)"
+              >
+                <mat-form-field
+                  class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style select-wrapper"
+                  appearance="outline"
+                >
+                  <mat-label>Select Country</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    #val
+                    formControlName="country"
+                    [matAutocomplete]="auto"
+                  />
+                  <mat-autocomplete
+                    #auto="matAutocomplete"
+                    [displayWith]="displayCountry"
+                  >
+                    <mat-option
+                      *ngFor="let option of CountryfilteredOptions | async"
+                      [value]="option"
+                      (onSelectionChange)="getCountryCode(option)"
+                    >
+                      {{ option.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error>Please Select a country</mat-error>
+                </mat-form-field>
+              </form>
+            </div>
+
+            <div class="w-full xs:mt-3">
+              <form>
+                <mat-form-field
+                  appearance="outline"
+                  class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading"
+                >
+                  <mat-label class="">WOW Tour site</mat-label>
+                  <mat-select class="para-bold" required>
+                    <mat-option
+                      *ngFor="let city of obtainedCity"
+                      class="para-bold"
+                      [value]="city"
+                      (click)="getCampIdLocation(city)"
+                    >
+                      {{ city.map_location_display_name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>Tour site is required</mat-error>
+                </mat-form-field>
+              </form>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!--map-->
+      <!-- <div class="w-full flex items-center">
+            <img src="../../../../../assets/images/map.png" />
+          </div> -->
+      <div style="margin-top: 13px">
+        <app-map-leaflet-schedule-tour></app-map-leaflet-schedule-tour>
+      </div>
+      <!--Address-->
+      <!--Address-->
+      <div class="mt-[90%] md:mt-[90%] gt-xs:mt-[27%]">
+        <!--Tour location-->
+        <div class="w-full flex items-center">
+          <span class="primary-heading">Tour Site Location Name: </span>
+          <span class="red-heading">{{ industrial_tour_site_name }}</span>
+        </div>
+
+        <!--Three mat-form-field-->
+        <div class="">
+          <div class="space-y-2">
+            <div class="flex xs:flex-col xs:w-full">
+              <div class="w-full">
+                <mat-form-field
+                  class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style"
+                  appearance="outline"
+                >
+                  <input
+                    type="text"
+                    readonly
+                    matInput
+                    [(ngModel)]="
+                      transport_info_from_railway_station_to_tour_site
+                    "
+                  />
+                </mat-form-field>
+              </div>
+
+              <div class="w-full xs:mt-3">
+                <mat-form-field
+                  appearance="outline"
+                  class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading"
+                >
+                  <input
+                    type="text"
+                    readonly
+                    matInput
+                    [(ngModel)]="transport_info_from_bus_stop_to_tour_site"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="">
+            <div class="">
+              <mat-form-field
+                appearance="outline"
+                class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[48%]"
+              >
+                <input
+                  type="text"
+                  readonly
+                  matInput
+                  [(ngModel)]="transport_info_from_airport_to_tour_site"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <!--Location-->
+        <div class="text-justify">
+          <span class="secondary-heading"> Name of the Organization: </span>
+
+          <span class="primary-heading">
+            {{ industrial_tour_site_name }}
+          </span>
+        </div>
+        <!--location address-->
+        <div class="text-justify">
+          <span class="secondary-heading">Address: </span>
+
+          <span class="para-bold">
+            {{ address_line_1 }} {{ address_line_2 }}
+          </span>
+        </div>
+        <!--location datetime-->
+        <div class="text-justify w-full flex items-center gap-1">
+          <div>
+            <span class="secondary-heading"
+              >Tour available days / Timings:</span
+            >
+          </div>
+          <div>
+            <img
+              src="../../../../../assets/images/calander.png"
+              class="h-10 w-10"
+              style="cursor: pointer"
+              (click)="OpenCalander()"
+            />
+          </div>
+        </div>
+        <!--Three participants input type-->
+        <div class="gt-xs:flex gt-xs:space-x-2">
+          <div class="gt-xs:flex gt-xs:space-x-2">
+            <!--first-->
+            <div>
+              <div>
+                <span class="secondary-heading"
+                  >No of participants allowed per tour:</span
+                >
+              </div>
+              <div>
+                <div>
+                  <mat-form-field
+                    appearance="outline"
+                    class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[50%]"
+                  >
+                    <input
+                      matInput
+                      [(ngModel)]="no_of_participants_allowed_per_tour"
+                      NumbersOnly
+                      type="number"
+                      readonly
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <!--second-->
+            <div>
+              <div>
+                <span class="secondary-heading"
+                  >No of volunteers allowed per tour:</span
+                >
+              </div>
+              <div>
+                <mat-form-field
+                  appearance="outline"
+                  class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[50%]"
+                >
+                  <input
+                    matInput
+                    NumbersOnly
+                    [(ngModel)]="no_of_volunteers_allowed_per_tour"
+                    type="number"
+                    readonly
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!--third-->
+          <div>
+            <div>
+              <span class="secondary-heading"
+                >Minimum Age permissible of Visitors:</span
+              >
+            </div>
+            <div>
+              <mat-form-field
+                appearance="outline"
+                class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[50%]"
+              >
+                <input
+                  matInput
+                  NumbersOnly
+                  [(ngModel)]="minimum_age_permissible_of_visitors"
+                  type="number"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <!--Tour check in and out timing-->
+        <div>
+          <div class="gt-xs:flex">
+            <div class="gt-xs:flex space-x-2">
+              <div class="mt-[10px]">
+                <span class="primary-heading">Tour (Check In Time)</span>
+              </div>
+              <div>
+                <div>
+                  <mat-form-field
+                    appearance="outline"
+                    class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[50%]"
+                  >
+                    <input
+                      matInput
+                      NumbersOnly
+                      [(ngModel)]="industrial_tour_check_in_time"
+                      type="text"
+                      readonly
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div class="gt-xs:flex space-x-2">
+              <div class="mt-[10px]">
+                <span class="primary-heading">Tour (Check Out Time)</span>
+              </div>
+              <div>
+                <mat-form-field
+                  appearance="outline"
+                  class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[50%]"
+                >
+                  <input
+                    matInput
+                    NumbersOnly
+                    [(ngModel)]="industrial_tour_check_out_time"
+                    type="text"
+                    readonly
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Tour Ratings-->
+        <div class="w-full gt-xs:flex items-center gap-2">
+          <div class="text-justify">
+            <span class="secondary-heading">Tour Ratings: </span>
+          </div>
+
+          <div>
+            <div class="cont">
+              <div class="stars">
+                <ngx-star-rating
+                  [(ngModel)]="ratingsData"
+                  [id]="'ratingsData'"
+                  [disabled]="true"
+                ></ngx-star-rating>
+              </div>
+              <!-- <div>Rating: {{ rating3 }}</div> -->
+            </div>
+          </div>
+        </div>
+
+        <!--Food Availability-->
+        <div>
+          <div>
+            <span class="primary-heading">Food Availability</span>
+          </div>
+
+          <div class="">
+            <ng-container>
+              <mat-form-field
+                appearance="outline"
+                class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[50%]"
+              >
+                <input
+                  matInput
+                  NumbersOnly
+                  [(ngModel)]="food_availability_show"
+                  type="text"
+                  readonly
+                />
+              </mat-form-field>
+            </ng-container>
+          </div>
+        </div>
+
+        <!--Dress Code-->
+        <div class="space-y-2">
+          <!--header-->
+          <div>
+            <span class="primary-heading">Dress Code</span>
+          </div>
+          <!--Frist Row-->
+
+          <div class="">
+            <mat-form-field
+              appearance="outline"
+              class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[48%]"
+            >
+              <mat-label class="secondary-heading">Attire:</mat-label>
+              <mat-select
+                class="para-bold"
+                required
+                [(ngModel)]="selectedDressCode"
+                name="selectedDressCode"
+                disabled
+              >
+                <mat-option
+                  *ngFor="let city of dress_code_options"
+                  class="para-bold"
+                  [value]="city.value"
+                >
+                  {{ city.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!--Second Row-->
+          <div>
+            <div class="flex xs:flex-col xs:w-full">
+              <div class="w-full">
+                <form>
+                  <mat-form-field
+                    appearance="outline"
+                    class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading"
+                  >
+                    <mat-label class="secondary-heading">Foot Wear:</mat-label>
+                    <mat-select
+                      class="para-bold"
+                      required
+                      [(ngModel)]="selectedFootWear"
+                      name="selectedFootWear"
+                      disabled
+                    >
+                      <mat-option
+                        *ngFor="let city_1 of foot_wear_options"
+                        class="para-bold"
+                        [value]="city_1.value"
+                      >
+                        {{ city_1.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </form>
+              </div>
+
+              <div class="w-full xs:mt-3">
+                <form>
+                  <mat-form-field
+                    appearance="outline"
+                    class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading"
+                  >
+                    <mat-label class="secondary-heading"
+                      >Shall be provided by the company:</mat-label
+                    >
+                    <mat-select
+                      class="para-bold"
+                      required
+                      [(ngModel)]="selectedFootWearYN"
+                      name="selectedFootWear"
+                      disabled
+                    >
+                      <mat-option
+                        *ngFor="let city_1 of foot_wear_optionsYN"
+                        class="para-bold"
+                        [value]="city_1.value"
+                      >
+                        {{ city_1.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!--Third Row-->
+          <!-- Second Row -->
+          <div>
+            <div class="flex xs:flex-col xs:w-full">
+              <!-- First Form -->
+              <div class="w-full">
+                <form>
+                  <mat-form-field
+                    appearance="outline"
+                    class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading"
+                  >
+                    <mat-label class="secondary-heading"
+                      >Safety Hats:</mat-label
+                    >
+                    <mat-select
+                      class="para-bold"
+                      required
+                      [(ngModel)]="selectedsafetyHats"
+                      name="selectedsafetyHats"
+                      disabled
+                    >
+                      <mat-option
+                        *ngFor="let city_1 of safety_hats_options"
+                        class="para-bold"
+                        [value]="city_1.value"
+                      >
+                        {{ city_1.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </form>
+              </div>
+
+              <!-- Second Form with Conditional Options -->
+              <div class="w-full xs:mt-3">
+                <form>
+                  <mat-form-field
+                    appearance="outline"
+                    class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading"
+                  >
+                    <mat-label class="secondary-heading"
+                      >Shall be provided by the company:</mat-label
+                    >
+                    <mat-select
+                      class="para-bold"
+                      required
+                      [(ngModel)]="selectedsafetyHatsYN"
+                      name="selectedsafetyHats"
+                      disabled
+                    >
+                      <mat-option
+                        *ngFor="let city_1 of safety_hats_optionsYN"
+                        class="para-bold"
+                        [value]="city_1.value"
+                      >
+                        {{ city_1.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!--Travel Arrangements-->
+          <div>
+            <span class="secondary-heading"
+              >Brief Description of the Expected Learning Outcome from this
+              Tour:
+            </span>
+          </div>
+          <div class="space-y-0 text-justify">
+            <form [formGroup]="firstFormGroup">
+              <div class="mt-2">
+                <ckeditor
+                  name="myckeditors"
+                  [config]="ckeConfig"
+                  formControlName="cdk_editor"
+                  [readonly]="readonlydata"
+                >
+                </ckeditor>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="float-right mb-[5px]">
+            <button
+              type="submit"
+              class="primary-button xs:text-[12px]"
+              mat-raised-button
+            >
+              SAVE
+            </button>
+          </div> -->
+    </div>
+    <div class="mt-[5px]">
+      <button
+        style="border-radius: 20px"
+        color="primary"
+        mat-raised-button
+        matStepperNext
+        [disabled]="!step1Complete"
+      >
+        Next
+      </button>
+    </div>
+  </mat-step>
+
+  <!--step -2-->
+  <mat-step
+    [stepControl]="secondForm"
+    label="Step 2:"
+    [completed]="step2Complete"
+  >
+    <form [formGroup]="secondForm">
+      <!--Content-->
+      <div class="text-justify w-full flex items-center">
+        <span class="primary-heading"
+          >Select date of Tour from available dates:</span
+        >
+        <span class="para-normal ml-[5px]">{{
+          map_location_display_name
+        }}</span>
+      </div>
+
+      <div>
+        <span class="secondary-heading"
+          >Only dates that are 1 month from current date shall be availble for
+          booking.</span
+        >
+      </div>
+      <!--calander-->
+
+      <div class="mt-[5px]">
+        <mat-form-field
+          appearance="outline"
+          class="w-full xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading"
+        >
+          <mat-label>Choose a date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            (dateChange)="onSelect($event)"
+            readonly
+            min="{{ today | date : 'yyyy-MM-dd' }}"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+        </mat-form-field>
+        <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+      </div>
+
+      <div class="w-full flex items-center pb-2 justify-end">
+        <!-- <div class="flex justify-center">
+          first div
+          <div class="w-full flex gap-2 items-center">
+            <div class="flex items-center space-x-2">
+              <div>
+                <mat-card class="bg-red-600 card"></mat-card>
+              </div>
+              <div>
+                <span class="para">Holiday</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="flex justify-center">
+          second div
+          <div class="w-full flex gap-2 items-center">
+            <div class="flex items-center space-x-2">
+              <div>
+                <mat-card class="bg-rose-200 card"></mat-card>
+              </div>
+              <div>
+                <span class="para">Non Operational Days</span>
+              </div>
+            </div>
+      
+            <div class="flex items-center space-x-2">
+              <div>
+                <mat-card class="bg-yellow-300 card"></mat-card>
+              </div>
+              <div>
+                <span class="para">Available Days</span>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="flex items-center space-x-2">
+          <div>
+            <mat-card class="bg-yellow-300 card"></mat-card>
+          </div>
+          <div>
+            <span class="para">Available Days</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full flex items-center gap-2">
+        <div>
+          <button
+            style="border-radius: 20px"
+            mat-raised-button
+            color="primary"
+            matStepperPrevious
+          >
+            Back
+          </button>
+        </div>
+        <div>
+          <button
+            style="border-radius: 20px"
+            mat-raised-button
+            color="primary"
+            [disabled]="!step2Complete"
+            matStepperNext
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-step>
+  <!--step -3-->
+
+  <mat-step label="Step 3" [completed]="step3Complete">
+    <ng-template matStepLabel>Step: 3</ng-template>
+
+    <div>
+      <!--Text-->
+      <div class="text-justify">
+        <span class="primary-heading">Select Participants for tour on:</span>
+        <span class="para-bold ml-[5px]">{{ selected_date_Format }}</span>
+      </div>
+
+      <div class="text-justify">
+        <span class="secondary-heading"
+          >Maximum permitted participants per Tour:
+        </span>
+        <span class="primary-heading ml-[5px]">20 Participants</span>
+        <span class="red-heading ml-[5px]">(Age Limit: 10 years)</span>
+      </div>
+
+      <div>
+        <span class="red-heading"
+          >Only Students, with Valid Tour Tickets shall be listed below.</span
+        >
+      </div>
+    </div>
+    <div>
+      <app-select-participants></app-select-participants>
+    </div>
+    <div class="w-full flex items-center gap-2 mt-[5px]">
+      <div>
+        <button
+          style="border-radius: 20px"
+          mat-raised-button
+          color="primary"
+          matStepperPrevious
+        >
+          Back
+        </button>
+      </div>
+
+      <div>
+        <button
+          style="border-radius: 20px"
+          mat-raised-button
+          color="primary"
+          [disabled]="!step3Complete"
+          matStepperNext
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </mat-step>
+  <!--step -4-->
+  <mat-step label="Step 4" [completed]="step4Complete">
+    <ng-template matStepLabel>Step: 4</ng-template>
+    <div></div>
+    <div>
+      <!--Text-->
+      <div class="text-justify">
+        <span class="primary-heading">Select Volunteers for tour to:</span>
+        <span class="para-bold ml-[5px]">{{ map_location_display_name }}</span>
+        <span class="primary-heading ml-[5px]">on</span>
+        <span class="para-bold ml-[5px]">{{ selected_date_Format }}</span>
+      </div>
+
+      <div class="text-justify">
+        <span class="secondary-heading"
+          >Maximum no of volunteers permitted:
+        </span>
+        <span class="primary-heading ml-[5px]"> 3 Volunteers</span>
+      </div>
+
+      <div>
+        <span class="red-heading"
+          >Only Users, with Valid Volunteer Tour Tickets shall be listed
+          below.</span
+        >
+      </div>
+    </div>
+    <div>
+      <app-select-volunteer></app-select-volunteer>
+    </div>
+
+    <div class="w-full flex items-center gap-2 mt-[5px]">
+      <div>
+        <button
+          style="border-radius: 20px"
+          mat-raised-button
+          color="primary"
+          matStepperPrevious
+        >
+          Back
+        </button>
+      </div>
+
+      <div>
+        <button
+          style="border-radius: 20px"
+          mat-raised-button
+          color="primary"
+          [disabled]="!step4Complete"
+          matStepperNext
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </mat-step>
+  <!--step -5-->
+  <mat-step label="Step 5" [completed]="step5Complete">
+    <ng-template matStepLabel>Step: 5</ng-template>
+
+    <!--Texts-->
+    <div>
+      <div>
+        <span class="primary-heading">Review and Schedule:</span>
+      </div>
+
+      <div class="text-justify">
+        <span class="primary-heading">Tour Site:</span>
+        <span class="para-normal ml-[5px]">{{
+          map_location_display_name
+        }}</span>
+      </div>
+
+      <div class="text-justify">
+        <span class="primary-heading">Address: </span>
+        <span class="para-normal ml-[5px]"
+          >{{ address_line_1 }} {{ address_line_2 }}</span
+        >
+      </div>
+
+      <!--3 fields-->
+
+      <div>
+        <div>
+          <div class="text-justify">
+            <span class="primary-heading">Tour Date:</span>
+            <span class="para-normal ml-[5px]">{{ selected_date_Format }}</span>
+          </div>
+        </div>
+        <div class="w-full gt-xs:flex items-center gap-2">
+          <div class="text-justify">
+            <span class="primary-heading">Tour (Check In Time)</span>
+            <span class="para-normal ml-[5px]">{{
+              industrial_tour_check_in_timeAMPM
+            }}</span>
+          </div>
+          <div class="text-justify">
+            <span class="primary-heading">Tour (Check Out Time)</span>
+            <span class="para-normal ml-[5px]">{{
+              industrial_tour_check_out_timeAMPM
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--show table-->
+    <div class="w-full lt-xs:gap-2 gt-xs:flex gt-xs:items-center gt-xs: gap-4">
+      <div>
+        <app-list-participants></app-list-participants>
+      </div>
+      <div>
+        <app-list-volunteer></app-list-volunteer>
+      </div>
+    </div>
+
+    <!--Button-->
+
+    <!--new-->
+    <div class="w-full flex items-center gap-2 mt-[10px]">
+      <div>
+        <button
+          mat-button
+          type="submit"
+          class="primary-button xs:text-[12px]"
+          (click)="onNoClick()"
+        >
+          Cancel
+        </button>
+      </div>
+
+      <div>
+        <button
+          mat-button
+          style="border-radius: 20px"
+          mat-raised-button
+          color="primary"
+          class="xs:text-[12px]"
+          matStepperPrevious
+        >
+          Back
+        </button>
+      </div>
+
+      <div>
+        <button
+          style="border-radius: 20px"
+          mat-raised-button
+          class="primary-button xs:text-[12px]"
+          (click)="schdeuleTour()"
+        >
+          Schedule Tour
+        </button>
+      </div>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

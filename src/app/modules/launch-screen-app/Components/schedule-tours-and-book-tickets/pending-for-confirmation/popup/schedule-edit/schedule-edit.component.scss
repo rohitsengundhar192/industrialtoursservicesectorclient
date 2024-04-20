@@ -1,0 +1,189 @@
+.bgc {
+  background-color: #3366ff;
+}
+.mat-form-field-wrapper {
+  padding-bottom: -0.65625em;
+}
+@import "global";
+
+.component--dialog-box__custom-toolbar {
+  &.mat-toolbar {
+    height: 27px;
+    background-color: #3366ff;
+    padding: 0 0 0 12px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 550;
+    .example-spacer {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+.button-container {
+  position: absolute;
+  bottom: 10px; /* Adjust the distance from the bottom as needed */
+  right: 51px; /* Adjust the distance from the right as needed */
+}
+
+.dialog-container {
+  position: relative;
+  height: 100%; /* Adjust the height as per your requirements */
+}
+
+.dialog-content {
+  /* Styles for dialog content */
+  overflow: auto; /* Enable scrolling within the dialog content if needed */
+}
+
+
+.floating-button {
+  position: fixed;
+  bottom: 64px; /* Adjust the value as per your requirement */
+  transform: translateX(-50%);
+  z-index: 9999;
+}
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-mdc-form-field {
+  margin-top: 16px;
+}
+
+
+#map {
+  height: 55vh;
+  width: 100%;
+  border: 2px solid black;
+}
+p {
+  font-family: Lato;
+}
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+
+
+//calander
+button.red-custom-date-class {
+  background: rgb(254, 205, 211);
+  border-radius: 100%;
+}
+
+.disabled-past-date {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.disabled-date {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.rose-custom-date-class {
+  background-color: yellow;
+  color: white;
+}
+
+.mat-calendar-body .rose-custom-date-class {
+  background-color: yellow;
+  color: white;
+}
+
+/* Add styles for the calendar cells */
+.mat-calendar-body td {
+  position: relative;
+  border: 1px solid #ccc;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  // background-color: #f0f0f0;
+}
+
+/* Add styles for the checkbox */
+.mat-calendar-body td.show-checkbox::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border: 1px solid #000; /* Adjust border color as needed */
+  background-color: pink; /* Set the background color for highlighted dates */
+}
+
+
+
+/* Customize arrow icons for the next and previous month buttons */
+.mat-calendar-next-button::before {
+  content: '\2192'; /* Unicode right arrow character */
+  font-size: 18px;
+}
+
+.mat-calendar-previous-button::before {
+  content: '\2190'; /* Unicode left arrow character */
+  font-size: 18px;
+}
+
+/* Adjust positioning and color of the arrow icons */
+.mat-calendar-next-button::before,
+.mat-calendar-previous-button::before {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #333; /* Adjust the color as needed */
+}
+
+.mat-calendar-next-button::before {
+  right: 5px; /* Adjust the right spacing as needed */
+}
+
+.mat-calendar-previous-button::before {
+  left: 5px; /* Adjust the left spacing as needed */
+}
+
+
+//For ratings:
+.cont {
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
+  padding: 0px 0;
+  color: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+div.stars {
+  width: 268px;
+  display: list-item;
+}
+
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 8px; /* Adjust as needed */
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #333; /* Adjust arrow color */
+  transform: translateY(-50%);
+  pointer-events: none;
+  cursor: pointer;
+}

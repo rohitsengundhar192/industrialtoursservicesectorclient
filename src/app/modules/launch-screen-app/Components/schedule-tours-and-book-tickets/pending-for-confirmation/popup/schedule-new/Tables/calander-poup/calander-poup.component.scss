@@ -1,0 +1,173 @@
+// .bgc {
+//   background-color: #3366ff;
+// }
+// .mat-form-field-wrapper {
+//   padding-bottom: -0.65625em;
+// }
+// @import "global";
+
+// .component--dialog-box__custom-toolbar {
+//   &.mat-toolbar {
+//     height: 27px;
+//     background-color: #3366ff;
+//     padding: 0 0 0 12px;
+//     color: #ffffff;
+//     font-size: 14px;
+//     font-weight: 550;
+//     .example-spacer {
+//       flex: 1 1 auto;
+//     }
+//   }
+// }
+
+// .demo-inline-calendar-card {
+//   width: 100%;
+// }
+
+// .custom-weekend-cell {
+//   border: 1px solid #ccc; // Customize the border style as needed
+// }
+
+// .calendar-container .mat-calendar-body-cell {
+//   border: 1px solid #ccc;
+// }
+// button.red-custom-date-class {
+//   background: rgb(254, 205, 211);
+//   border-radius: 100%;
+// }
+// button.rose-custom-date-class {
+//   background: rgb(239,68,68);
+//   border-radius: 100%;
+// }
+
+// .mat-calendar-body-cell-preview {
+//   border: 1px solid #9a9a9a !important;
+// }
+
+// .mat-calendar-body-selected {
+//   background-color: unset;
+//   color: unset;
+// }
+
+// .mat-calendar-body-cell-content {
+//   border-radius: unset !important;
+// }
+
+// .mat-calendar-body-today:not(.mat-calendar-body-selected):not(
+//     .mat-calendar-body-comparison-identical
+//   ) {
+//   border: unset;
+// }
+
+// .calendar-body-cell-preview {
+//   content: "";
+//   position: absolute;
+//   top: 5%;
+//   left: 0;
+//   z-index: 0;
+//   box-sizing: border-box;
+//   height: 90%;
+//   width: 100%;
+//   border: 2px solid #000;
+// }
+
+.bgc {
+  background-color: #3366ff;
+}
+.mat-form-field-wrapper {
+  padding-bottom: -0.65625em;
+}
+@import "global";
+
+.component--dialog-box__custom-toolbar {
+  &.mat-toolbar {
+    height: 27px;
+    background-color: #3366ff;
+    padding: 0 0 0 12px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 550;
+    .example-spacer {
+      flex: 1 1 auto;
+    }
+  }
+}
+.demo-inline-calendar-card {
+  width: 300px;
+}
+
+button.red-custom-date-class {
+  background: rgb(254, 205, 211);
+  border-radius: 100%;
+}
+
+.disabled-past-date {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.disabled-date {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.rose-custom-date-class {
+  background-color: yellow;
+  color: white;
+}
+
+.mat-calendar-body .rose-custom-date-class {
+  background-color: yellow;
+  color: white;
+}
+
+/* Add styles for the calendar cells */
+.mat-calendar-body td {
+  position: relative;
+  border: 1px solid #ccc;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  // background-color: #f0f0f0;
+}
+
+/* Add styles for the checkbox */
+.mat-calendar-body td.show-checkbox::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border: 1px solid #000; /* Adjust border color as needed */
+  background-color: pink; /* Set the background color for highlighted dates */
+}
+
+/* Customize arrow icons for the next and previous month buttons */
+.mat-calendar-next-button::before {
+  content: "\2192"; /* Unicode right arrow character */
+  font-size: 18px;
+}
+
+.mat-calendar-previous-button::before {
+  content: "\2190"; /* Unicode left arrow character */
+  font-size: 18px;
+}
+
+/* Adjust positioning and color of the arrow icons */
+.mat-calendar-next-button::before,
+.mat-calendar-previous-button::before {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #333; /* Adjust the color as needed */
+}
+
+.mat-calendar-next-button::before {
+  right: 5px; /* Adjust the right spacing as needed */
+}
+
+.mat-calendar-previous-button::before {
+  left: 5px; /* Adjust the left spacing as needed */
+}

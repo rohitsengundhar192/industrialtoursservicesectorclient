@@ -1,0 +1,32 @@
+#map {
+  height: 55vh;
+  width: 100%;
+  border: 2px solid black;
+}
+
+
+// Dialog box toolbar
+.component--dialog-box__custom-toolbar {
+  &.mat-toolbar {
+    height: 27px;
+    background-color: #3366ff;
+    // border-radius: 4px;
+    padding: 0 0 0 12px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 550;
+
+    .example-spacer {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+.mat-dialog-content {
+  display: block;
+  margin: 0 0;
+  padding: 10px 10px;
+  max-height: 75vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}

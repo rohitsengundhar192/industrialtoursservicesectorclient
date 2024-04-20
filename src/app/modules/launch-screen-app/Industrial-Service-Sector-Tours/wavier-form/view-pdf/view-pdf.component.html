@@ -1,0 +1,43 @@
+<div *ngIf="passdata == 1" style="display: block; width: 100%; height: 90%">
+  <pdf-viewer
+    [src]="pdfContent"
+    [show-all]="true"
+    [render-text]="true"
+    style="display: block; width: 100%; height: 100%"
+  ></pdf-viewer>
+</div>
+
+<div class="center-container p-[5px]" *ngIf="passdata == 2">
+  <div
+    class="item w-full flex items-center"
+    *ngFor="let item of imagedata; let i = index"
+  >
+    <div class="w-full flex items-center justify-center">
+      <img
+        class="shadow-box"
+        [src]="item.images"
+        [style.height.px]="400"
+        style="width: 100%"
+      />
+    </div>
+  </div>
+</div>
+
+<div class="flex justify-center items-center pt-[7px] gap-3">
+  <div>
+    <mat-icon style="cursor: pointer" (click)="getfile()" matTooltip="Download"
+      >save_alt</mat-icon
+    >
+  </div>
+
+  <div>
+    <button
+      mat-raised-button
+      class="red-button"
+      color="warn"
+      (click)="onNoClick()"
+    >
+      Close
+    </button>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<ng-container *ngIf="!hidecontent">
+  <div class="component--mat-tab__custom-style">
+    <mat-tab-group>
+      <!--First Tab-->
+      <mat-tab label="Schedule Tours">
+        <app-pending-for-confirmation></app-pending-for-confirmation>
+      </mat-tab>
+      <!--second Tab-->
+      <mat-tab label="Confirmed Tours">
+        <app-confirmed-tours></app-confirmed-tours>
+      </mat-tab>
+      <!--Third Tab-->
+      <mat-tab label="Confirmation Denied">
+        <app-confirmation-denided></app-confirmation-denided>
+      </mat-tab>
+      <!--Fourth Tab-->
+      <mat-tab label="Re-Scheduling Requests">
+        <app-re-sheduling-request></app-re-sheduling-request>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</ng-container>

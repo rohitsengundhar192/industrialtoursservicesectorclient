@@ -1,0 +1,32 @@
+@use "@angular/material" as mat;
+
+@use "./styles/themes/light";
+@use "./styles/components";
+@use "./styles/typography/config" as typography;
+
+@include mat.core(typography.$my-app-typography);
+
+@include mat.core-theme(light.$my-app-light-theme);
+@include mat.button-theme(light.$my-app-light-theme);
+@include components.theme(light.$my-app-light-theme,
+  typography.$my-app-typography,
+  light.$my-app-light-variants);
+
+
+@import "global";
+@import "variables";
+@import "component-global";
+
+// @import "tailwindcss/base";
+// @import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import "~leaflet/dist/leaflet.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

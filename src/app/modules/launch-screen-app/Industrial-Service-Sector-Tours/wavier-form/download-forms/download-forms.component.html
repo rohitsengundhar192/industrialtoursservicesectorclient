@@ -1,0 +1,1121 @@
+<!--over All-->
+<div class="space-y-2">
+  <!--simple text-->
+  <div class="text-justify">
+    <div class="">
+      <span class="ml-5 para">
+        Camp participants will be allowed to book tickets only if their camp
+        participation approval and waiver form is
+        <span class="para-red">downloaded</span>
+        <span class="para-red"> and signed - by the following personnel.</span>
+      </span>
+    </div>
+    <div>
+      <span class="para">
+        a). The participants and/or legal parent or guardian of the participant
+        (mandatory if the participants are less than 18 years of age) and
+      </span>
+    </div>
+    <div>
+      <span class="para">
+        b) Authorized Volunteer (typically an adult staff/faculty of the
+        educational institution is eligible for a free entry ticket) who shall
+        accompany the participants and
+      </span>
+    </div>
+
+    <div>
+      <span class="para">
+        c). Authorized head of the institution or the head of the department.
+      </span>
+    </div>
+  </div>
+
+  <!--Select-->
+  <div class="w-full lt-xs:space-y-2 gt-xs:flex items-center gap-2">
+    <div>
+      <span class="primary-heading">List of Downloaded Forms for:</span>
+    </div>
+    <div class="">
+      <form [formGroup]="firstFormGroup">
+        <div class="flex flex-col re">
+          <mat-form-field
+            appearance="outline"
+            class="w-[100%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading gt-xs:w-[140%]"
+          >
+            <mat-label class="">Select User Category</mat-label>
+            <mat-select appearance="outline" formControlName="sel1" required>
+              <mat-option
+                *ngFor="let dates of selectCategorylist"
+                [value]="dates"
+                (click)="selectedCategoryData(dates)"
+              >
+                {{ dates.user_category_name }}
+              </mat-option>
+            </mat-select>
+            <mat-error>User Category is required</mat-error>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!--button-->
+  <div class="py-1 px-2 flex flex-wrap justify-start gap-2">
+    <div>
+      <button
+        class="primary-button"
+        style="cursor: pointer"
+        target="_blank"
+        [disabled]="btndisable1"
+        (click)="changeFormat(today)"
+        mat-raised-button
+      >
+        Download PDF
+      </button>
+    </div>
+
+    <div>
+      <button
+        class="primary-button"
+        mat-raised-button
+        [disabled]="addparticipantsdisable"
+        (click)="openAddParticipants()"
+      >
+        Add Participants
+      </button>
+    </div>
+    <div>
+      <button
+        class="primary-button"
+        mat-raised-button
+        [disabled]="btndisable"
+        (click)="openEditvol()"
+      >
+        Edit Participants
+      </button>
+    </div>
+
+    <div>
+      <button
+        class="primary-button"
+        mat-raised-button
+        (click)="deleteParticipants()"
+        [disabled]="btndisable"
+      >
+        Delete Participants
+      </button>
+    </div>
+  </div>
+
+  <!--Text-->
+  <div class="text-justify">
+    <span class="para-red"
+      >The download button shall not activated unless volunteer staff /
+      Authorized Head of the Institution are assigned for the participants</span
+    >
+  </div>
+  <!--Table-->
+  <div>
+    <!--table-->
+    <div>
+      <div class="mat-elevation-z8 mt-2 table-responsive w-full gt-xs:w-fit">
+        <div id="pdfTable1">
+          <table
+            id="excel_table"
+            matSort
+            mat-table
+            #table
+            [dataSource]="dataSource"
+            style="margin-left: auto; margin-right: auto"
+            class="component--mat-table__custom-table checklist-table table-bordered table-sm block"
+          >
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="col1">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  width: 150px;
+                  min-width: 150px;
+                  max-width: 200px;
+                  word-wrap: break-word;
+                  white-space: nowrap;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  vertical-align: middle;
+                  text-align: center;
+                  border-right: 1px solid #9a9a9a;
+                "
+              >
+                User Name
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element; let row"
+                style="text-align: left; padding-left: 5px"
+              >
+                <div style="display: flex; justify-items: center">
+                  <div>
+                    <mat-radio-group [(ngModel)]="tables">
+                      <mat-radio-button
+                        class="mt-[6px]"
+                        [value]="element.user_id"
+                        (click)="radioClickTable(element)"
+                      ></mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+
+                  <div style="display: flex"></div>
+                  <div
+                    style="justify-content: start; cursor: pointer"
+                    (click)="isrowselectedfirstreply(row)"
+                    (click)="openUserProfile()"
+                  >
+                    <div class="flex gap-1 mt-[5px] text-sm">
+                      <span class="primary-heading">
+                        {{ element?.first_name }}</span
+                      >
+                      <span class="primary-heading">
+                        {{ element?.last_name }}</span
+                      >
+                    </div>
+                    <!-- <div>
+                        <span class="secondary-heading">
+                          {{ element?.category }}</span
+                        >
+                      </div> -->
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container
+              matColumnDef="col3"
+              style="border-right: 1px solid #9a9a9a"
+            >
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  width: 150px;
+                  max-width: 200px;
+                  word-wrap: break-word;
+                  white-space: nowrap;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  vertical-align: middle;
+                  text-align: center;
+                  border-right: 1px solid #9a9a9a;
+                "
+              >
+                Volunteer Staff <br />
+                who shall travel <br />
+                with the participants
+              </th>
+              <td
+                style="
+                  border-right: 1px solid #9a9a9a;
+                  text-align: left;
+                  padding-left: 10px;
+                "
+                mat-cell
+                *matCellDef="let element; let row"
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: start;
+                    cursor: pointer;
+                  "
+                  class="grid whitespace-nowrap lt-sm:pr-3"
+                  (click)="isrowselectedvolreply(row)"
+                  (click)="openUserProfilevol()"
+                >
+                  <div class="flex gap-1 text-sm">
+                    <span class="primary-heading">
+                      {{ element?.voluteer_info?.first_name }}</span
+                    >
+                    <span class="primary-heading">
+                      {{ element?.voluteer_info?.last_name }}</span
+                    >
+                  </div>
+                  <!-- <span class="secondary-heading">
+                      {{ element?.voluteer_info?.category_vol }}</span
+                    > -->
+                </div>
+                <mat-error *ngIf="element?.voluteer_info?.first_name.invalid">
+                  <div
+                    *ngIf="element?.voluteer_info?.first_name.errors.required"
+                  >
+                    Name is required
+                  </div>
+                </mat-error>
+              </td>
+            </ng-container>
+
+            <ng-container
+              matColumnDef="col4"
+              style="border-right: 1px solid #9a9a9a"
+            >
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  width: 200px;
+                  max-width: 250px;
+                  word-wrap: break-word;
+                  white-space: nowrap;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  vertical-align: middle;
+                  text-align: center;
+                  border-right: 1px solid #9a9a9a;
+                "
+              >
+                Authorized Head of <br />
+                the Institution / Head of <br />
+                the Department
+              </th>
+              <td
+                style="
+                  border-right: 1px solid #9a9a9a;
+                  text-align: left;
+                  padding-left: 10px;
+                "
+                mat-cell
+                *matCellDef="let element; let row"
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: start;
+                    cursor: pointer;
+                  "
+                  class="grid whitespace-nowrap lt-sm:pr-3"
+                  (click)="isrowselectedauthreply(row)"
+                  (click)="openUserProfileauth()"
+                >
+                  <div class="flex gap-1 text-sm">
+                    <span class="primary-heading">
+                      {{ element?.auth?.first_name }}</span
+                    >
+                    <span class="primary-heading">
+                      {{ element?.auth?.last_name }}</span
+                    >
+                  </div>
+                  <!-- <span class="secondary-heading">
+                      {{ element?.auth?.category_aut }}</span
+                    > -->
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="col5">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  width: 150px;
+                  max-width: 200px;
+                  word-wrap: break-word;
+                  white-space: nowrap;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  vertical-align: middle;
+                  text-align: center;
+                "
+              >
+                Download Status
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                style="text-align: left; padding-left: 10px"
+              >
+                <!-- <div style="text-align: left; padding-left: 5px">
+                  {{ element?.download_Datetime | date : "dd MMM y h:mm a" }}
+                </div> -->
+
+                <div *ngIf="element.download_Datetime != null">
+                  <span class="para">
+                    {{ element?.download_Datetime | date : "dd MMM y h:mm a" }}
+                  </span>
+                </div>
+                <div
+                  class="ml-[10px]"
+                  *ngIf="element.download_Datetime == null"
+                >
+                  <span class="para"> Not yet Downloaded </span>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+              style="text-align: center"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              (click)="selection.toggle(row); onRowClicked(row)"
+              (mouseover)="row.hovered = true"
+              (mouseout)="row.hovered = false"
+            ></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="5">
+                No data matching the filter
+                <!-- "{{ input.value }}" -->
+              </td>
+            </tr>
+          </table>
+        </div>
+        <mat-paginator
+          class="component--mat-pagination__size"
+          #paginator
+          #paginatorElement
+          [length]="dataSource.data.length"
+          [pageIndex]="0"
+          [pageSizeOptions]="[5, 10, 20]"
+          [pageSize]="5"
+          [allValue]="dataSource.data.length"
+          appAddAllToPaginator
+          (page)="pageChanged($event)"
+        >
+        </mat-paginator>
+        <span class="red-heading ml-[5px]"> * </span
+        ><span class="para"> Please select All in order to use filter </span>
+        <div class="flex bg-white-black" id="export_btn">
+          <div class="custom-mat-floating-label">
+            <mat-form-field
+              appearance="outline"
+              class="component--mat-form-field__custom-input pl-2"
+            >
+              <input
+                placeholder="Filter"
+                [disabled]="
+                  dataSource.data.length === 0 ||
+                  !(pageSize !== 5 && pageSize !== 10 && pageSize !== 20)
+                "
+                matInput
+                (keyup)="applyFilter($event)"
+                #input
+              />
+            </mat-form-field>
+          </div>
+          <div class="w-full flex justify-end">
+            <span class="p-5 export-btn" [matMenuTriggerFor]="menu"
+              >Export</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mat Menu -->
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="downloadAsPDF11()">
+        <mat-icon>picture_as_pdf</mat-icon>
+        <span>Print / Export PDF</span>
+      </button>
+      <button mat-menu-item (click)="exportReport('sample.xlsx')">
+        <mat-icon>grid_on</mat-icon>
+        <span>Export SpreadSheet</span>
+      </button>
+      <button mat-menu-item (click)="exportReport('sample.csv')">
+        <mat-icon>grid_on</mat-icon>
+        <span>Export csv File</span>
+      </button>
+      <button mat-menu-item (click)="exportReport('sample.json')">
+        <mat-icon>grid_on</mat-icon>
+        <span>Export json</span>
+      </button>
+    </mat-menu>
+  </div>
+
+  <!--Simple text-->
+  <div class="text-justify">
+    <span class="para-red"> Please Note: </span>
+    <span class="para-bold">
+      The Educational Institution is responsible for choosing the right
+      volunteer staff/parent who shall ensure the safety of the participants
+      throughout the camp stay including transportation. There should be a
+      minimum of 1 volunteer for 10 participants. Volunteers could include staff
+      of institution such as faculty, drivers, attendees, etc.
+    </span>
+    <span class="para-red">
+      Also, the educational institution is responsible for validating and
+      uploading correct consent forms in order to avoid disputes in the future.
+    </span>
+  </div>
+</div>
+
+<!--Certificate-->
+<div class="mat-data">
+  <div class="mat">
+    <div class="mat" #content id="certificate" style="background-color: #fff">
+      <div class="p-3">
+        <div class="ml-[150px]">
+          <!--left-->
+
+          <div class="flex items-center gap-2" style="margin-top: -5px">
+            <div>
+              <span
+                style="
+                  color: #3366ff;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >Institution Name:</span
+              >
+            </div>
+            <div>
+              <span
+                style="
+                  color: #000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 16px;
+                  font-weight: 600;
+                "
+                >{{ institutionname }}</span
+              >
+            </div>
+          </div>
+          <div style="margin-top: -9px">
+            <span
+              style="
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+                font-weight: 600;
+              "
+              >Address: {{ institutionaddress1 }}, {{ institutionaddress2 }},
+              {{ city_district_county }},{{ state_province }}</span
+            >
+          </div>
+        </div>
+        <div style="text-align: center; margin-right: 260px">
+          <span
+            style="
+              color: #333fff;
+              text-align: justify;
+              text-justify: inter-word;
+              font-size: 14px;
+            "
+            >Camp Participation Consent and Waiver Form</span
+          >
+        </div>
+
+        <div class="gap-[-10px]">
+          <div class="w-full flex items-center gap-2">
+            <div>
+              <span
+                style="
+                  color: #333fff;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >Participant Name:</span
+              >
+              <span
+                style="
+                  color: #f60707;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                  margin-left: 5px;
+                "
+                >{{ pdf_first_name | titlecase }}
+                {{ pdf_last_name | titlecase }}</span
+              >
+              <span
+                style="
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+              >
+                - {{ pdf_user_category }}</span
+              >
+            </div>
+            <div class="ml-[104px]">
+              <span
+                style="
+                  color: #333fff;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >Date of Birth:
+              </span>
+              <span
+                style="
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >{{ pdf_user_age | date : "d MMM y " }}</span
+              >
+            </div>
+          </div>
+
+          <!--Sec-->
+          <div class="w-full flex items-center gap-2">
+            <div style="display: flex">
+              <div>
+                <span
+                  style="
+                    color: #333fff;
+                    text-align: justify;
+                    text-justify: inter-word;
+                    font-size: 10px;
+                  "
+                  >Name of the Parent/Guardian:
+                </span>
+                <span
+                  style="
+                    color: #000000;
+                    text-align: justify;
+                    text-justify: inter-word;
+                    font-size: 10px;
+                  "
+                  >___________________</span
+                >
+              </div>
+            </div>
+            <div style="display: flex; margin-left: 84px">
+              <div>
+                <span
+                  style="
+                    color: #333fff;
+                    text-align: justify;
+                    text-justify: inter-word;
+                    font-size: 10px;
+                  "
+                  >Relationship with the Participant:
+                </span>
+                <span
+                  style="
+                    color: #000000;
+                    text-align: justify;
+                    text-justify: inter-word;
+                    font-size: 10px;
+                  "
+                  >_____________________</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <span
+              style="
+                color: #333fff;
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+              "
+              >Authorized Camp Volunteer Name, Category:</span
+            >
+
+            <span
+              style="
+                color: #f60707;
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+                margin-left: 5px;
+              "
+              >{{ pdf_vol_fname | titlecase }}
+              {{ pdf_vol_lname | titlecase }}</span
+            >
+            <span
+              style="
+                color: #000000;
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+              "
+            >
+              - {{ pdf_vol_caterogy | titlecase }}</span
+            >
+          </div>
+          <div>
+            <span
+              style="
+                color: #333fff;
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+              "
+              >Authorized Institution Head / HOD Name, Category:</span
+            >
+            <span
+              style="
+                color: #f60707;
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+                margin-left: 5px;
+              "
+            >
+              {{ pdf_auth_fname | titlecase }}
+              {{ pdf_auth_lname | titlecase }}</span
+            >
+            <span
+              style="
+                color: #000000;
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+              "
+            >
+              - {{ pdf_auth_caterogy | titlecase }}</span
+            >
+          </div>
+        </div>
+
+        <!--Dynamic Text-->
+
+        <div style="margin-right: 205px;margin-bottom: 10px;">
+          <p
+            style="
+              text-align: justify;
+              text-justify: inter-word;
+              font-size: 10px;
+            "
+            [innerHTML]="content_data_article_4"
+          ></p>
+        </div>
+
+        <!--below Text-->
+
+        <div
+          style="
+            align-items: center;
+            margin-top: 4px;
+            background-color: #9a9a9a;
+            width: 570px;
+            border: 1px solid #9a9a9a;
+            border-radius: 10px;
+            height: 30px;
+          "
+        >
+          <span
+            style="
+              color: #000000;
+              text-align: justify;
+              text-justify: inter-word;
+              font-size: 9px;
+              margin-left: 10px;
+            "
+          >
+            I certify that I have read this document, fully understand its
+            contents, and agree to its terms. I have also briefed the
+            participant.
+          </span>
+        </div>
+
+        <div
+          style="
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+            margin-bottom: 10px;
+          "
+        >
+          <div style="display: flex">
+            <div>
+              <span
+                style="
+                  color: #333fff;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >Signature of the Parent/Guardian:
+              </span>
+              <span
+                style="
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >______________
+              </span>
+            </div>
+          </div>
+          <div style="display: flex">
+            <div>
+              <span
+                style="
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >Name :________________</span
+              >
+            </div>
+          </div>
+          <div style="display: flex; margin-right: 212px">
+            <div>
+              <span
+                style="
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+              >
+                Date:______________</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="
+            align-items: center;
+            margin-top: 5px;
+            background-color: #9a9a9a;
+            width: 570px;
+            border: 1px solid #9a9a9a;
+            border-radius: 10px;
+            height: 30px;
+          "
+        >
+          <span
+            style="
+              color: #000000;
+              text-align: justify;
+              text-justify: inter-word;
+              font-size: 9px;
+              margin-left: 10px;
+            "
+          >
+            I certify that I have read this document, fully understand its
+            contents, and agree to its terms.
+          </span>
+        </div>
+
+        <!--First content-->
+        <div
+          style="width: 100%; display: flex; gap: 10px; justify-items: center"
+        >
+          <div style="width: 100%; display: flex; gap: 10px">
+            <div>
+              <span
+                style="
+                  color: #333fff;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >Signature of the Camp Participant:
+              </span>
+              <span
+                style="
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >________
+              </span>
+            </div>
+            <div
+              border_bottom
+              style="
+                height: 0.05rem;
+                margin-top: 33px;
+                margin-left: 4px;
+                color: #000000;
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+              "
+            ></div>
+            <div style="margin-left: 1px">
+              <span
+                style="
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >(</span
+              >
+              <span
+                style="
+                  color: #f60707;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                  margin-left: 1px;
+                "
+                >{{ pdf_first_name | titlecase }}
+                {{ pdf_last_name | titlecase }}</span
+              >
+              <span
+                style="
+                  margin-left: 4px;
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >- {{ pdf_user_category | titlecase }} )</span
+              >
+            </div>
+          </div>
+
+          <div style="float: left; margin-right: 220px">
+            <span
+              style="
+                color: #000000;
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+              "
+            >
+              Date:_____________</span
+            >
+          </div>
+        </div>
+
+        <div
+          border_bottom
+          style="
+            height: 4px;
+            margin-top: 3px;
+            width: 567px;
+            background-color: #9a9a9a;
+          "
+        ></div>
+
+        <div class="mb-[5px]">
+          <span
+            style="
+              color: #000000;
+              text-align: justify;
+              text-justify: inter-word;
+              font-size: 10px;
+            "
+            >(For Office Use Only)</span
+          >
+        </div>
+
+        <div
+          style="
+            align-items: center;
+            background-color: #9a9a9a;
+            width: 570px;
+            border: 1px solid #9a9a9a;
+            border-radius: 10px;
+            height: 30px;
+          "
+        >
+          <span
+            style="
+              color: #000000;
+              text-align: justify;
+              text-justify: inter-word;
+              font-size: 9px;
+              margin-left: 10px;
+            "
+          >
+            I certify that I have read this document, fully understand its
+            contents, and have verified the validity of the above signatures.
+          </span>
+        </div>
+
+        <!--Second content-->
+        <div
+          style="width: 100%; display: flex; gap: 10px; justify-items: center"
+        >
+          <div style="width: 100%; display: flex; gap: 10px">
+            <div>
+              <span
+                style="
+                  color: #333fff;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >Signature of the Camp Volunteer:
+              </span>
+              <span
+                style="
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >______________
+              </span>
+            </div>
+            <div
+              border_bottom
+              style="
+                margin-left: 4px;
+                color: #000000;
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+              "
+            ></div>
+            <div style="margin-left: 4px">
+              <span
+                style="
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >(</span
+              >
+              <span
+                style="
+                  margin-left: 5px;
+                  color: #f60707;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >{{ pdf_vol_fname | titlecase }}
+                {{ pdf_vol_lname | titlecase }}</span
+              >
+              <span
+                style="
+                  margin-left: 4px;
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >- {{ pdf_vol_caterogy | titlecase }} )</span
+              >
+            </div>
+          </div>
+
+          <div style="float: left; margin-right: 220px">
+            <span
+              style="
+                color: #000000;
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+              "
+            >
+              Date:______________</span
+            >
+          </div>
+        </div>
+
+        <!--Third content-->
+        <div
+          style="
+            width: 100%;
+            display: flex;
+            gap: 10px;
+            justify-items: center;
+            margin-top: 5px;
+          "
+        >
+          <div style="width: 100%; display: flex; gap: 10px">
+            <div>
+              <span
+                style="
+                  color: #333fff;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >Signature of the Head of Institution / HOD:
+              </span>
+              <span
+                style="
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >_________
+              </span>
+            </div>
+            <div
+              border_bottom
+              style="
+                height: 0.05rem;
+                margin-top: 33px;
+                margin-left: 4px;
+                color: #000000;
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+              "
+            ></div>
+            <div style="margin-left: 4px">
+              <span
+                style="
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >(</span
+              >
+              <span
+                style="
+                  margin-left: 5px;
+                  color: #f60707;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >{{ pdf_auth_fname | titlecase }}
+                {{ pdf_auth_lname | titlecase }}
+              </span>
+              <!-- {{ pdf_auth_fname | titlecase }} -->
+              <span
+                style="
+                  margin-left: 4px;
+                  color: #000000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 10px;
+                "
+                >- {{ pdf_auth_caterogy | titlecase }} )</span
+              >
+            </div>
+          </div>
+
+          <div style="float: left; margin-right: 220px">
+            <span
+              style="
+                color: #000000;
+                text-align: justify;
+                text-justify: inter-word;
+                font-size: 10px;
+              "
+            >
+              Date:______________</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

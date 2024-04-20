@@ -1,0 +1,14 @@
+<ng-container *ngIf="!hidecontent">
+  <div class="component--mat-tab__custom-style">
+    <mat-tab-group>
+      <!--First Tab-->
+      <mat-tab label="Download Unsigned Forms">
+        <app-download-forms></app-download-forms>
+      </mat-tab>
+      <!--second Tab-->
+      <mat-tab label="Upload / View Signed Forms">
+        <app-upload-form></app-upload-form>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</ng-container>

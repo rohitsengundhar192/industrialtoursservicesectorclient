@@ -1,0 +1,20 @@
+<div>
+  <mat-toolbar class="component--dialog-box__custom-toolbar">
+    <span class="font-small-in-size">GPS Location</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="flex items-center justify-center">
+      <mat-icon mat-dialog-close class="cursor-pointer">close</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <section
+    class="px-[10px] py-0flex flex-col overflow-hidden"
+    mat-dialog-content
+  >
+    <div class="map-container">
+      <div class="map-frame">
+        <div id="map"></div>
+      </div>
+    </div>
+  </section>
+</div>

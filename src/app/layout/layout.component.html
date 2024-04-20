@@ -1,0 +1,20 @@
+<div class="base-container">
+  <div class="header">
+    <!-- <app-header></app-header> -->
+    <!-- <app-secondary-header></app-secondary-header> -->
+  </div>
+  <div id="show" class="h-115px">
+    <app-show-header></app-show-header>
+  </div>
+
+  <div
+    [ngClass]="
+      show === true ? 'primary1-layout-content' : 'primary-layout-content'
+    "
+  >
+    <router-outlet></router-outlet>
+  </div>
+  <div class="footer">
+    <!-- <app-footer></app-footer> -->
+  </div>
+</div>

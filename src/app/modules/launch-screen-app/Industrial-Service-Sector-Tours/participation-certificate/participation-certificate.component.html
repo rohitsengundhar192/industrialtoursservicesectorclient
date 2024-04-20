@@ -1,0 +1,1066 @@
+<!--over all-->
+<div>
+  <!--Simple text-->
+  <div class="text-justify">
+    <span class="primary-heading">Select from the list of</span>
+    <span class="red-heading ml-[5px] mr-[5px]">your tours</span>
+    <span class="primary-heading"
+      >in order to download the participation certificate:</span
+    >
+  </div>
+  <!--Table-->
+  <div>
+    <div>
+      <div class="mat-elevation-z8 mt-2 table-responsive w-fit">
+        <div id="pdfTable">
+          <table
+            id="excel_table"
+            matSort
+            mat-table
+            #table
+            [dataSource]="dataSource"
+            style="margin-left: auto; margin-right: auto"
+            class="component--mat-table__custom-table checklist-table table-bordered table-sm block"
+          >
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="col1">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  width: 150px;
+                  max-width: 160px;
+                  word-wrap: break-word;
+                  white-space: nowrap;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  vertical-align: middle;
+                  text-align: center;
+                  border-right: 1px solid #9a9a9a;
+                "
+              >
+                Date
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                style="text-align: left; padding-left: 10px"
+              >
+                <div style="display: flex; justify-items: center">
+                  <div>
+                    <mat-radio-group [(ngModel)]="tables">
+                      <mat-radio-button
+                        class="mt-[6px]"
+                        [value]="element"
+                        (click)="radioBtnData(element)"
+                        >{{
+                          element.trip_datetime | date : "dd MMM y"
+                        }}</mat-radio-button
+                      >
+                    </mat-radio-group>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Position Column -->
+            <ng-container
+              matColumnDef="col2"
+              style="border-right: 1px solid #9a9a9a"
+            >
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  width: 180px;
+                  max-width: 200px;
+                  word-wrap: break-word;
+                  white-space: nowrap;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  vertical-align: middle;
+                  text-align: center;
+                  border-right: 1px solid #9a9a9a;
+                "
+              >
+                Organization <br />
+                Name
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element; let row"
+                style="text-align: left; padding-left: 10px"
+              >
+                <div style="display: flex; justify-items: center">
+                  <div style="display: flex"></div>
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: start;
+                      cursor: pointer;
+                    "
+                  >
+                    {{ element.map_location_display_name[0] }}
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container
+              matColumnDef="col3"
+              style="border-right: 1px solid #9a9a9a"
+            >
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="
+                  width: 180px;
+                  max-width: 200px;
+                  word-wrap: break-word;
+                  white-space: nowrap;
+                  padding-left: 8px;
+                  padding-right: 8px;
+                  vertical-align: middle;
+                  text-align: center;
+                  border-right: 1px solid #9a9a9a;
+                "
+              >
+                Completed
+              </th>
+              <td
+                style="border-right: 1px solid #9a9a9a; vertical-align: middle"
+                mat-cell
+                *matCellDef="let element"
+              >
+                <!-- <div
+                  *ngIf="
+                    element.is_industrial_tour_participation_verified_by_wow_tour_guide ==
+                    1
+                  "
+                >
+                  <span>Yes</span>
+                </div> -->
+                <!-- <div
+                  *ngIf="
+                    element.is_industrial_tour_participation_verified_by_wow_tour_guide ==
+                    0
+                  "
+                >
+                  <span>Yes</span>
+                </div> -->
+
+                <div style="display: flex; justify-items: center">
+                  <div style="display: flex"></div>
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: start;
+                      cursor: pointer;
+                    "
+                  >
+                    <span class="ml-[5px]">Yes</span>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+              style="text-align: center"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              (click)="selection.toggle(row); onRowClicked(row)"
+              (mouseover)="row.hovered = true"
+              (mouseout)="row.hovered = false"
+            ></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching the filter</td>
+            </tr>
+          </table>
+        </div>
+        <!-- [length]="dataSource?.data?.length" -->
+        <mat-paginator
+          class="component--mat-pagination__size"
+          #paginator
+          #paginatorElement
+          [pageIndex]="0"
+          [pageSizeOptions]="[5, 10, 20]"
+          [pageSize]="5"
+          [allValue]="dataSource"
+          appAddAllToPaginator
+          (page)="pageChanged($event)"
+        >
+        </mat-paginator>
+        <span class="red-heading ml-[5px]"> * </span
+        ><span class="para"> Please select All in order to use filter </span>
+        <div class="flex bg-white-black" id="export_btn">
+          <div class="custom-mat-floating-label">
+            <mat-form-field
+              appearance="outline"
+              class="component--mat-form-field__custom-input pl-2"
+            >
+              <input
+                placeholder="Filter"
+                [disabled]="
+                  dataSource.data.length === 0 ||
+                  !(pageSize !== 5 && pageSize !== 10 && pageSize !== 20)
+                "
+                matInput
+                (keyup)="applyFilter($event)"
+                #input
+              />
+            </mat-form-field>
+          </div>
+          <div class="w-full flex justify-end">
+            <span class="p-5 export-btn" [matMenuTriggerFor]="menu"
+              >Export</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mat Menu -->
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="downloadAsPDF()">
+        <mat-icon>picture_as_pdf</mat-icon>
+        <span>Print / Export PDF</span>
+      </button>
+      <button mat-menu-item (click)="exportReport('sample.xlsx')">
+        <mat-icon>grid_on</mat-icon>
+        <span>Export SpreadSheet</span>
+      </button>
+      <button mat-menu-item (click)="exportReport('sample.csv')">
+        <mat-icon>grid_on</mat-icon>
+        <span>Export csv File</span>
+      </button>
+      <button mat-menu-item (click)="exportReport('sample.json')">
+        <mat-icon>grid_on</mat-icon>
+        <span>Export json</span>
+      </button>
+    </mat-menu>
+  </div>
+
+  <!--Certificate-->
+  <div class="mt-[20px] overflow-x-auto">
+    <div class="w-full">
+      <div
+        class="mx-auto lt-md:w-[94%] lt-lg:w-[94%] w-[21cm] lg:w-[94%] h-full overflow-x"
+      >
+        <div class="text_mat">
+          <div
+            style="
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              margin-bottom: -32px;
+            "
+          >
+            <p class="secondary-heading">
+              You can download the WOW Contributions Certificate by clicking
+              this button.
+            </p>
+          </div>
+
+          <div
+            style="
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-end;
+            "
+          >
+            <mat-icon
+              (click)="pdfDownload()"
+              class="cursor-pointer text-black mb-2"
+              style="margin-right: 5px; margin-top: 10px"
+              >file_download</mat-icon
+            >
+            <mat-icon
+              (click)="do()"
+              class="cursor-pointer text-black mb-2"
+              style="margin-right: 5px; margin-top: 10px"
+              >share</mat-icon
+            >
+          </div>
+        </div>
+
+        <div class="mat">
+          <div
+            class="mat"
+            #content
+            id="certificate"
+            style="background-color: #e7edff"
+          >
+            <div class="p-3">
+              <div class="flex pb-3">
+                <!--left-->
+                <div class="flex space-x-2">
+                  <div>
+                    <img
+                      style="border-radius: 8px"
+                      class="h-16 w-16"
+                      [src]="
+                        'https://cephapi.getwow.biz/api/storage/' +
+                        country_code +
+                        '-' +
+                        customer_id +
+                        '/' +
+                        customer_sub_domain_name +
+                        '-icon-128x128.png'
+                      "
+                      alt="app-logo"
+                    />
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="primary-heading">Institution Name:</span>
+                    <span class="normal-heading text-xl uppercase_1">{{
+                      inst_name
+                    }}</span>
+
+                    <span class="text-xs font-bold text-justify"
+                      >Address: {{ inst_add1 }}, {{ inst_add2 }},
+                      {{ inst_city }}, {{ inst_state }}, {{ inst_pin }}</span
+                    >
+                  </div>
+                </div>
+
+                <!--right-->
+                <!-- <div
+                  class="items-center justify-center ml-[77px]"
+                  style="text-align: center"
+                >
+                  <div class="flex">
+                    <span class="well">
+                      <span class="text-gray-500">www.</span>
+                      <span class="text-blue-500">get</span>
+                      <span class="text-[#ff0404]">wow.</span>
+                      <span class="text-blue-500">education</span>
+                    </span>
+                  </div>
+                  <span class="well">
+                    <span class="text-[#ff0404] text-xl">W</span>ell-being
+                    <span class="text-[#ff0404] text-xl">O</span>f
+                    <span class="text-[#ff0404] text-xl">W</span>aste
+                  </span>
+                </div> -->
+                <div
+                  class="items-center justify-center ml-[77px]"
+                  style="text-align: center"
+                >
+                  <div class="flex">
+                    <span class="">
+                      <span
+                        style="
+                          color: #969696;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 15px;
+                          font-weight: 600;
+                        "
+                        >www.</span
+                      >
+                      <span
+                        style="
+                          color: #3366ff;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 15px;
+                          font-weight: 600;
+                        "
+                        >get</span
+                      >
+                      <span
+                        style="
+                          color: #f60707;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 15px;
+                          font-weight: 600;
+                        "
+                        >wow.</span
+                      >
+                      <span
+                        style="
+                          color: #3366ff;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 15px;
+                          font-weight: 600;
+                        "
+                        >education</span
+                      >
+                    </span>
+                  </div>
+                  <div class="flex">
+                    <span class="">
+                      <span
+                        style="
+                          color: #f60707;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 15px;
+                          font-weight: 600;
+                        "
+                        >W</span
+                      >
+                      <span
+                        style="
+                          color: #000;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 15px;
+                          font-weight: 600;
+                        "
+                        >ell-being
+                      </span>
+
+                      <span
+                        style="
+                          color: #f60707;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 15px;
+                          font-weight: 600;
+                        "
+                        >O</span
+                      >
+                      <span
+                        style="
+                          color: #000;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 15px;
+                          font-weight: 600;
+                        "
+                        >f
+                      </span>
+                      <span
+                        style="
+                          color: #f60707;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 15px;
+                          font-weight: 600;
+                        "
+                        >W</span
+                      >
+                      <span
+                        style="
+                          color: #000;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 15px;
+                          font-weight: 600;
+                        "
+                        >aste
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div border_bottom class="h-1 bg-[#9A9A9A]"></div>
+
+              <div class="pb-3 pt-3 flex space-x-2">
+                <!--First-->
+                <div class="">
+                  <!-- <ngx-qrcode
+                  [elementType]="elementType"
+                  [errorCorrectionLevel]="correctionLevel"
+                  [value]="pdfDataUrl"
+                  cssClass="bshadow"
+                ></ngx-qrcode> -->
+                  <div class="scanner-container">
+                    <!-- <div class="scan-text" [ngClass]="{'hidden': !isBlurred}">Click here to scan</div> -->
+                  </div>
+
+                  <!-- <ngx-qrcode
+                [elementType]="elementType"
+                [errorCorrectionLevel]="correctionLevel"
+                [value]="loadlink"
+                cssClass="bshadow"
+                (scanSuccess)="removeBlurAndSetFlag()"
+              ></ngx-qrcode> -->
+
+                  <div
+                    style="
+                      height: 100px;
+                      width: 100px;
+                      margin-top: 11px;
+                      margin-right: 4px;
+                    "
+            
+                  >
+                    <qrcode
+                      [qrdata]="cardUrl"
+                      [width]="100"
+                      [errorCorrectionLevel]="'Q'"
+                      [margin]="1"
+                    >
+                    </qrcode>
+                  </div>
+                </div>
+                <!--Second-->
+                <div class="w-[50%]">
+                  <span
+                    class="whitespace-nowrap"
+                    style="
+                      color: #000;
+                      text-align: justify;
+                      text-justify: inter-word;
+                      font-size: 20px;
+                      font-weight: 700;
+                    "
+                    >Industrial / Service Sector Tour - Participation
+                    Certificate</span
+                  >
+                  <div class="flex space-x-2">
+                    <span class="primary-heading mt-2">Participant Name:</span>
+                    <span
+                      class="flex h-7 w-36 mt-1 bg-white text-center items-center justify-center normal-heading"
+                    >
+                      {{ names?.first_name || direct_stu_login_fn | titlecase }}
+                      {{
+                        names?.last_name || direct_stu_login_ln | titlecase
+                      }}</span
+                    >
+                  </div>
+                  <div class="flex space-x-2">
+                    <span class="primary-heading mt-2">Date of Birth:</span>
+                    <span
+                      class="flex h-7 w-36 mt-1 bg-white text-center items-center justify-center normal-heading"
+                      style="margin-left: 39px"
+                      >{{
+                        names?.date_of_birth || direct_stu_login_dob
+                          | date : "dd MMM y"
+                      }}</span
+                    >
+                  </div>
+                </div>
+                <!--Third-->
+                <div class=""></div>
+              </div>
+
+              <div border_bottom class="h-1 bg-[#9A9A9A]"></div>
+              <div>
+                <ng-container>
+                  <!--overall inside certificate-->
+                  <div>
+                    <!--organisation name-->
+                    <div class="flex space-x-2">
+                      <span class="primary-heading mt-2"
+                        >Industrial / Service Sector Organization Name:
+                      </span>
+                      <span
+                        class="flex h-7 w-48 mt-1 bg-white text-center items-center justify-center normal-heading"
+                        >{{ map_location_display_name }}
+                      </span>
+                    </div>
+
+                    <!--Date of tour-->
+                    <div class="flex space-x-2">
+                      <span class="primary-heading mt-2">Date of Tour: </span>
+                      <span
+                        class="flex h-7 w-28 mt-1 bg-white text-center items-center justify-center normal-heading"
+                        >{{ ticket_booking_datetime | date : "dd MMM y" }}
+                      </span>
+                    </div>
+
+                    <!--Address-->
+                    <div class="flex space-x-2">
+                      <span class="primary-heading mt-1">Address: </span>
+                      <span
+                        class="flex h-7 text-center items-center justify-center"
+                        style="
+                          color: #000;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 12px;
+                          font-weight: 700;
+                        "
+                        >{{ address_line_1 }}, {{ address_line_2 }},
+                        {{ city_district_county }}, {{ state_province }},
+                        {{ country }}, {{ pin_code }}
+                      </span>
+                    </div>
+
+                    <!--Descripition 1-->
+
+                    <div>
+                      <span class="primary-heading"
+                        >Brief Description of Learning Outcome of this Tour:
+                      </span>
+                    </div>
+
+                    <div>
+                      <div
+                        class="w-[98%] flex-row h-auto para mt-1 bg-white text-justify normal-heading p-2 space-y-5"
+                        style="border-radius: 10px"
+                      >
+                        <p
+                          style="
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 12px;
+                          "
+                          [innerHTML]="sanitizedContent"
+                        ></p>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Another certificate to download-->
+        <div class="mat-data">
+          <div class="mat" style="margin-top: 30px">
+            <div
+              class="mat"
+              #content1
+              id="certificate"
+              style="background-color: #a8f942"
+            >
+              <div class="p-3">
+                <div class="flex pb-3">
+                  <!--left-->
+                  <div class="flex space-x-2">
+                    <div>
+                      <img
+                        style="border-radius: 8px"
+                        class="h-16 w-16"
+                        [src]="
+                          'https://cephapi.getwow.biz/api/storage/' +
+                          country_code +
+                          '-' +
+                          customer_id +
+                          '/' +
+                          customer_sub_domain_name +
+                          '-icon-128x128.png'
+                        "
+                        alt="app-logo"
+                      />
+                    </div>
+                    <div class="flex flex-col">
+                      <span
+                        style="
+                          color: #3366ff;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 15px;
+                        "
+                        >Institution Name:</span
+                      >
+                      <span
+                        class="uppercase_1"
+                        style="
+                          color: #000;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 18px;
+                          font-weight: 700;
+                        "
+                        >{{ inst_name }}</span
+                      >
+
+                      <span
+                        class="text-xs text-justify"
+                        style="
+                          color: #000;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 12px;
+                        "
+                        >Address: {{ inst_add1 }}, {{ inst_add2 }},
+                        {{ inst_city }},
+                      </span>
+                      <span
+                        class="text-xs text-justify"
+                        style="
+                          color: #000;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 12px;
+                        "
+                      >
+                        {{ inst_state }}, {{ inst_pin }}
+                      </span>
+                    </div>
+                  </div>
+
+                  <!--right-->
+                  <div
+                    class="items-center justify-center ml-[70px]"
+                    style="text-align: center"
+                  >
+                    <div class="flex">
+                      <span class="">
+                        <span
+                          style="
+                            color: #969696;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 15px;
+                            font-weight: 600;
+                          "
+                          >www.</span
+                        >
+                        <span
+                          style="
+                            color: #3366ff;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 15px;
+                            font-weight: 600;
+                          "
+                          >get</span
+                        >
+                        <span
+                          style="
+                            color: #f60707;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 15px;
+                            font-weight: 600;
+                          "
+                          >wow.</span
+                        >
+                        <span
+                          style="
+                            color: #3366ff;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 15px;
+                            font-weight: 600;
+                          "
+                          >education</span
+                        >
+                      </span>
+                    </div>
+                    <div class="flex">
+                      <span class="">
+                        <span
+                          style="
+                            color: #f60707;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 15px;
+                            font-weight: 600;
+                          "
+                          >W</span
+                        >
+                        <span
+                          style="
+                            color: #000;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 15px;
+                            font-weight: 600;
+                          "
+                          >ell-being
+                        </span>
+
+                        <span
+                          style="
+                            color: #f60707;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 15px;
+                            font-weight: 600;
+                          "
+                          >O</span
+                        >
+                        <span
+                          style="
+                            color: #000;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 15px;
+                            font-weight: 600;
+                          "
+                          >f
+                        </span>
+                        <span
+                          style="
+                            color: #f60707;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 15px;
+                            font-weight: 600;
+                          "
+                          >W</span
+                        >
+                        <span
+                          style="
+                            color: #000;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 15px;
+                            font-weight: 600;
+                          "
+                          >aste
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div border_bottom class="h-1 bg-[#9A9A9A] w-[73%]"></div>
+
+                <!-- <div border_bottom class="h-1 bg-[#9A9A9A]"></div> -->
+
+                <div class="pb-3 pt-3 flex space-x-2">
+                  <!--First-->
+                  <div class="">
+                    <!-- <ngx-qrcode
+                  [elementType]="elementType"
+                  [errorCorrectionLevel]="correctionLevel"
+                  [value]="pdfDataUrl"
+                  cssClass="bshadow"
+                ></ngx-qrcode> -->
+                    <div class="scanner-container">
+                      <!-- <div class="scan-text" [ngClass]="{'hidden': !isBlurred}">Click here to scan</div> -->
+                    </div>
+
+                    <!-- <ngx-qrcode
+                [elementType]="elementType"
+                [errorCorrectionLevel]="correctionLevel"
+                [value]="loadlink"
+                cssClass="bshadow"
+                (scanSuccess)="removeBlurAndSetFlag()"
+              ></ngx-qrcode> -->
+
+                    <div
+                      style="
+                        height: 100px;
+                        width: 100px;
+                        margin-top: 11px;
+                        margin-right: 4px;
+                      "
+                      *ngIf="cardUrl"
+                    >
+                      <qrcode
+                        [qrdata]="cardUrl"
+                        [width]="100"
+                        [errorCorrectionLevel]="'Q'"
+                        [margin]="1"
+                      >
+                      </qrcode>
+                    </div>
+                  </div>
+                  <!--Second-->
+                  <div class="w-[50%] text">
+                    <span
+                      class="whitespace-nowrap"
+                      style="
+                        color: #000;
+                        text-align: justify;
+                        text-justify: inter-word;
+                        font-size: 18px;
+                        font-weight: 700;
+                      "
+                      >Industrial / Service Sector Tour - Participation
+                      Certificate</span
+                    >
+                    <div class="flex space-x-2">
+                      <span
+                        style="
+                          color: #3366ff;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 10px;
+                          font-weight: 700;
+                        "
+                        class="mt-2"
+                        >Participant Name:</span
+                      >
+                      <span
+                        class="flex h-6 w-36 mt-1 bg-white text-center items-center justify-center"
+                        style="
+                          color: #000;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 10px;
+                          font-weight: 700;
+                          margin-left: 39px;
+                        "
+                      >
+                        {{
+                          names?.first_name || direct_stu_login_fn | titlecase
+                        }}
+                        {{
+                          names?.last_name || direct_stu_login_ln | titlecase
+                        }}</span
+                      >
+                    </div>
+                    <div class="flex space-x-2">
+                      <span
+                        style="
+                          color: #3366ff;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 10px;
+                          font-weight: 700;
+                        "
+                        class="mt-2"
+                        >Date of Birth:</span
+                      >
+                      <span
+                        class="flex h-6 w-36 mt-1 bg-white text-center items-center justify-center"
+                        style="
+                          color: #000;
+                          text-align: justify;
+                          text-justify: inter-word;
+                          font-size: 10px;
+                          font-weight: 700;
+                          margin-left: 39px;
+                        "
+                        >{{
+                          names?.date_of_birth || direct_stu_login_dob
+                            | date : "dd MMM y"
+                        }}</span
+                      >
+                    </div>
+                  </div>
+                  <!--Third-->
+                  <div class=""></div>
+                </div>
+
+                <div border_bottom class="h-1 w-[73%] bg-[#9A9A9A]"></div>
+                <div>
+                  <ng-container>
+                    <!--overall inside certificate-->
+                    <div>
+                      <!--organisation name-->
+                      <div class="flex space-x-2">
+                        <span
+                          style="
+                            color: #3366ff;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 10px;
+                            font-weight: 700;
+                          "
+                          class="mt-2"
+                          >Industrial / Service Sector Organization Name:
+                        </span>
+                        <span
+                          class="flex h-6 mt-1 w-48 bg-white text-center items-center justify-center"
+                          style="
+                            color: #000;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 10px;
+                            font-weight: 700;
+                          "
+                          >{{ map_location_display_name }}
+                        </span>
+                      </div>
+
+                      <!--Date of tour-->
+                      <div class="flex space-x-2">
+                        <span
+                          style="
+                            color: #3366ff;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 10px;
+                            font-weight: 700;
+                          "
+                          class="mt-2"
+                          >Date of Tour:
+                        </span>
+                        <span
+                          class="flex h-6 w-28 mt-1 bg-white text-center items-center justify-center"
+                          style="
+                            color: #000;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 10px;
+                            font-weight: 700;
+                          "
+                          >{{ ticket_booking_datetime | date : "dd MMM y" }}
+                        </span>
+                      </div>
+
+                      <!--Address-->
+                      <div class="flex space-x-2">
+                        <span
+                          style="
+                            color: #3366ff;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 10px;
+                            font-weight: 700;
+                          "
+                          >Address:
+                        </span>
+                        <span
+                          class="flex gap-3 h-6 text-center items-center justify-center"
+                          style="
+                            color: #000;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 10px;
+                            font-weight: 700;
+                          "
+                          >{{ address_line_1 }}, {{ address_line_2 }},
+                          {{ city_district_county }}, {{ state_province }},
+                          {{ country }}, {{ pin_code }}
+                        </span>
+                      </div>
+
+                      <!--Descripition 1-->
+
+                      <div>
+                        <span
+                          style="
+                            color: #3366ff;
+                            text-align: justify;
+                            text-justify: inter-word;
+                            font-size: 10px;
+                            font-weight: 700;
+                          "
+                          >Brief Description of Learning Outcome of this Tour:
+                        </span>
+                      </div>
+
+                      <div>
+                        <div
+                          class="flex-row h-auto para w-[73%] mt-1 bg-white text-justify p-2"
+                          style="border-radius: 10px"
+                        >
+                          <span
+                            class="text-xs text-justify"
+                            style="
+                              color: #000;
+                              text-align: justify;
+                              text-justify: inter-word;
+                              font-size: 11px;
+                              margin-left: 5px;
+                            "
+                          >
+                            {{ tour_site_learning_outcome }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

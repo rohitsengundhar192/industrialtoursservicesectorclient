@@ -1,0 +1,32 @@
+
+.mat-form-field-wrapper {
+  padding-bottom: -0.65625em;
+}
+.bgc{
+  background-color: #9ef542;
+
+}
+.bg {
+  border: black 4px solid;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adjust the shadow values as needed */
+}
+
+@import "global";
+
+.component--dialog-box__custom-toolbar {
+  &.mat-toolbar {
+    height: 27px;
+
+    padding: 0 0 0 12px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 550;
+    .example-spacer {
+      flex: 1 1 auto;
+    }
+  }
+}
+.im{
+  margin-right: 6px;
+  margin-top: 15px;
+}

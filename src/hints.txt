@@ -1,0 +1,47 @@
+
+UPDATE manage_industrial_tours.1_getsterapp_industrial_tour_site_master
+SET industrial_tour_site_cloud_file_storage_ids = '["1057", "1058", "1173", "1174", "1175", "1176", "1177"]'
+WHERE industrial_tour_id = 2;
+
+
+
+
+confirmed Tours :
+
+a) trip_confirmation_status - 1
+b) trip_confirmed_by_user_id_of_industrial_tour_site - put user id
+
+
+---------------------------------
+
+confirmation Denied:
+
+a) trip_confirmation_status - 2
+b) trip_confirmation_denied_by_user_id__industrial_tour_site- put user id
+
+
+---------------------------------
+
+rescheduling request:
+
+a) trip_confirmation_status - 1
+b) rescheduling_requested_by_user_id_of_industrial_tour_site- put user id
+c) rescheduling_request_datetime - is not equal to trip_scheduled_datetime
+d) is_trip_rescheduled = 1
+
+
+-----------------------------------
+
+view photos and validate
+a) industrial_tour_photos_upload_cloud_file_storage_ids = is not null
+b) tour_validated_by_user_id_of_visiting_customer is null
+c) photos_uploaded_by_user_id_of_industrial_tour_site - put user id
+
+------------------------------------
+
+
+Validation Completed
+
+a) industrial_tour_photos_upload_cloud_file_storage_ids = is not null
+b) tour_validated_by_user_id_of_visiting_customer is not null
+c) photos_uploaded_by_user_id_of_industrial_tour_site - put user id

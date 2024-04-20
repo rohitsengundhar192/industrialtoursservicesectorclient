@@ -1,0 +1,291 @@
+<div class="mat">
+    <div
+      class="mat"
+      #content
+      id="certificate"
+      style="background-color: #a8f942"
+    >
+      <div class="p-3">
+        <div class="flex pb-3">
+          <!--left-->
+          <div class="flex  space-x-2">
+            <div>
+              <img
+                style="border-radius: 8px"
+                class="h-16 w-16"
+                [src]="
+                  'https://cephapi.getwow.biz/api/storage/' +
+                  country_code +
+                  '-' +
+                  customer_id +
+                  '/' +
+                  customer_sub_domain_name +
+                  '-icon-128x128.png'
+                "
+                alt="app-logo"
+              />
+            </div>
+            <div class="flex flex-col">
+              <span class="primary-heading">Institution Name:</span>
+              <span class="normal-heading text-xl uppercase_1">{{
+                inst_name
+              }}</span>
+  
+              <span class="text-xs font-bold text-justify"
+                >Address: {{ inst_add1 }}, {{ inst_add2 }}, {{ inst_city }},
+                {{ inst_state }}, {{ inst_pin }}</span
+              >
+            </div>
+          </div>
+  
+          <!--right-->
+          <!-- <div
+            class="items-center justify-center ml-[77px]"
+            style="text-align: center"
+          >
+            <div class="flex">
+              <span class="well">
+                <span class="text-gray-500">www.</span>
+                <span class="text-blue-500">get</span>
+                <span class="text-[#ff0404]">wow.</span>
+                <span class="text-blue-500">education</span>
+              </span>
+            </div>
+            <span class="well">
+              <span class="text-[#ff0404] text-xl">W</span>ell-being
+              <span class="text-[#ff0404] text-xl">O</span>f
+              <span class="text-[#ff0404] text-xl">W</span>aste
+            </span>
+          </div> -->
+          <div
+          class="items-center justify-center ml-[77px]"
+          style="text-align: center"
+        >
+          <div class="flex">
+            <span class="">
+              <span
+                style="
+                  color: #969696;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 15px;
+                  font-weight: 600;
+                "
+                >www.</span
+              >
+              <span
+                style="
+                  color: #3366ff;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 15px;
+                  font-weight: 600;
+                "
+                >get</span
+              >
+              <span
+                style="
+                  color: #f60707;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 15px;
+                  font-weight: 600;
+                "
+                >wow.</span
+              >
+              <span
+                style="
+                  color: #3366ff;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 15px;
+                  font-weight: 600;
+                "
+                >education</span
+              >
+            </span>
+          </div>
+          <div class="flex">
+            <span class="">
+              <span
+                style="
+                  color: #f60707;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 15px;
+                  font-weight: 600;
+                "
+                >W</span
+              >
+              <span
+                style="
+                  color: #000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 15px;
+                  font-weight: 600;
+                "
+                >ell-being
+              </span>
+
+              <span
+                style="
+                  color: #f60707;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 15px;
+                  font-weight: 600;
+                "
+                >O</span
+              >
+              <span
+                style="
+                  color: #000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 15px;
+                  font-weight: 600;
+                "
+                >f
+              </span>
+              <span
+                style="
+                  color: #f60707;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 15px;
+                  font-weight: 600;
+                "
+                >W</span
+              >
+              <span
+                style="
+                  color: #000;
+                  text-align: justify;
+                  text-justify: inter-word;
+                  font-size: 15px;
+                  font-weight: 600;
+                "
+                >aste
+              </span>
+            </span>
+          </div>
+        </div>
+        </div>
+  
+        <div border_bottom class="h-1 bg-[#9A9A9A]"></div>
+  
+        <div class="pb-3 pt-3 flex space-x-2">
+          <!--First-->
+          <div class="">
+            <!-- <ngx-qrcode
+              [elementType]="elementType"
+              [errorCorrectionLevel]="correctionLevel"
+              [value]="pdfDataUrl"
+              cssClass="bshadow"
+            ></ngx-qrcode> -->
+            <!-- <div class="scanner-container" (click)="removeBlurAndSetFlag()">
+              <ngx-qrcode
+                [elementType]="elementType"
+                [errorCorrectionLevel]="correctionLevel"
+                [value]="pdfDataUrl"
+                cssClass="bshadow"
+                [ngClass]="{'blurred': isBlurred}"
+              ></ngx-qrcode>
+              <div class="scan-text" [ngClass]="{'hidden': !isBlurred}">Click here to scan</div>
+            </div> -->
+  
+  
+  
+          </div>
+          <!--Second-->
+          <div class="w-[50%] normal-heading text">
+            <span class="whitespace-nowrap"
+              >WOW Program Contributions Certificate</span
+            >
+            <div class="flex space-x-2">
+              <span class="primary-heading mt-2">Contributor Name:</span>
+              <span
+                class="flex h-7 w-36 mt-1 bg-white text-center items-center justify-center normal-heading"
+                style="margin-left: 16px;"
+              >
+                {{ names?.first_name | titlecase }}
+                {{ names?.last_name | titlecase }}</span
+              >
+            </div>
+            <div class="flex space-x-2">
+              <span class="primary-heading mt-2">Date of Birth:</span>
+              <span
+                class="flex h-7 w-36 mt-1 bg-white text-center items-center justify-center normal-heading"
+                style="margin-left: 44px"
+                >{{ names?.date_of_birth | date : "dd MMM y" }}</span
+              >
+            </div>
+            <div class="flex space-x-2">
+              <span class="primary-heading mt-2">WOW Camp Name:</span>
+              <span
+                class="flex h-7 w-36 mt-1 bg-white text-center items-center justify-center normal-heading"
+                style="margin-left: 13px"
+              >
+                {{ camp_name }}
+              </span>
+            </div>
+          </div>
+          <!--Third-->
+          <div class="">
+            <div>
+              <!-- <span class="primary-heading float-right"
+                >Contributor Face Id:</span
+              > -->
+              <!-- <img
+                class="h-28 w-30 ml-24 mt-2"
+                [src]="getCustomerProfileUrl(names?.customer_image)"
+              /> -->
+            </div>
+          </div>
+        </div>
+  
+        <div border_bottom class="h-1 bg-[#9A9A9A]"></div>
+        <div *ngIf="showdatatopchange">
+          <ng-container >
+            <mat-label color="warn" >
+              <div class="flex space-x-2">
+                <span class="primary-heading mt-2"
+                  >Date of Participation:</span
+                >
+                <span
+                  class="flex h-7 w-36 mt-1 bg-white text-center items-center justify-center normal-heading"
+                >
+                  {{ actitvity_date | date : "dd MMM y" }}
+                </span>
+              </div>
+  
+              <div class="flex space-x-2">
+                <span class="primary-heading mt-2">Activity Name:</span>
+                <span
+                  class="flex h-7 w-36 mt-1 bg-white text-center items-center justify-center normal-heading"
+                  style="margin-left: 43px"
+                >
+                  {{ activity_name }}
+                </span>
+              </div>
+              <br />
+  
+              <div border_bottom class="h-1 bg-[#9A9A9A]"></div>
+            </mat-label>
+          </ng-container>
+        <!-- </div> -->
+  
+        <div class="pb-3 pt-3">
+          <span class="third-heading">*</span>
+          <span class="normal-heading text-xs text-justify">
+            Data other than waste paper contributions are estimates based on
+            standard industry practices considering inefficiencies in the
+            collection supply chain for waste paper and in the manufacturing
+            processes of paper pulp from trees.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  

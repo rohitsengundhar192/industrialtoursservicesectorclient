@@ -1,0 +1,118 @@
+<div class="gt-xs:flex justify-center p-2 gap-1 gt-xs:gap-2">
+  <div class="flex items-center flex-wrap gap-1">
+    <div
+      class="normal-heading xs:text-[18px] gt-xs:text-[20px] mx-auto font-bold gt-xs:hidden"
+    >
+      Select from Students Linked to You:
+    </div>
+    <div
+      class="normal-heading xs:text-[18px] gt-xs:text-[20px] mx-auto font-bold xs:hidden"
+    >
+      Select from Students <br />
+      Linked to You:
+    </div>
+  </div>
+  <div class="gt-sm:flex mt-2">
+    <div>
+      <div class="w-full flex items-center component-mat-select-remove-padding">
+        <mat-form-field appearance="outline" class="w-[400px] xs:w-[100%]">
+          <!-- <mat-icon
+              matPrefix
+              style="height: 45px; width: 45px; line-height: normal"
+              class="profile-image profile-shadow"
+            >
+              <img
+                onerror="this.src='../../../../../assets/profile_icon.png'"
+  
+                alt=""
+                style="height: 100%; width: 100%"
+              />
+            </mat-icon> -->
+          <mat-select
+            disableOptionCentering
+            panelClass="dropDown-seasons-panel"
+            [(value)]="selected"
+            style="padding-left: 10px"
+            (openedChange)="openedChange($event)"
+          >
+            <div class="h-[50px] flex items-center justify-center m-[6px]">
+              <div
+                class="flex items-center justify-center bg-white"
+                style="
+                  height: 45px;
+                  width: 100%;
+                  border: 1px solid gray;
+                  border-radius: 50px;
+                  padding: 0px 20px;
+                "
+              >
+                <input
+                  type="text"
+                  placeholder="search by user name"
+                  [(ngModel)]="searchWords"
+                  class="w-full border-none focus:outline-none"
+                />
+                <mat-icon class="w-auto">search</mat-icon>
+              </div>
+            </div>
+
+            <!-- (onSelectionChange)="registerUser(item, $event)"  -->
+            <mat-card class="m-[6px] h-[135px] overflow-y-auto">
+              <mat-option
+                *ngFor="
+                  let item of !searchWords ? studentDatas : searchWord;
+                  index as i;
+                  odd as oddValue
+                "
+                [value]="item"
+                style="
+                  border-radius: 10px;
+                  margin-bottom: 5px;
+                  height: auto;
+                  padding: 0px 7px 0px 0px;
+                  border: 1px solid gray;
+                "
+                (onSelectionChange)="radioButton(item, $event)"
+              >
+                <div
+                  class="h-full w-[110%] flex gap-2"
+                  style="padding-left: 7px; padding-right: 7px"
+                >
+                  <div class="h-auto w-fullflex items-center">
+                    <!-- <img
+                      onerror="this.src='../../../../../assets/profile_icon.png'"
+                      [src]="getCustomerProfileUrl(item.profile_img)"
+                      alt=""
+                      class="profile-image2 profile-shadow"
+                    /> -->
+                  </div>
+                  <div class="w-[200px] leading-[23px] text-[12px]">
+                    <div class="w-full flex gap-2 items-center">
+                      <div>
+                        <p>
+                          <span class="primary-heading"
+                            ><b>{{ item.first_name | titlecase }}</b></span
+                          >
+                        </p>
+                      </div>
+
+                      <div>
+                        <p>
+                          <span class="primary-heading"
+                            ><b>{{ item.last_name | titlecase }}</b></span
+                          >
+                        </p>
+                      </div>
+                    </div>
+
+                    <p class="text-black">{{ item.category[0] | titlecase }}</p>
+                  </div>
+                </div>
+              </mat-option>
+            </mat-card>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

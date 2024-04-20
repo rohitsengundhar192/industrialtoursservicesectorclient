@@ -1,0 +1,116 @@
+<!--overall-->
+<mat-toolbar class="component--dialog-box__custom-toolbar">
+  <span class="font-small-in-size">Validate and Rate</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="flex items-center justify-center">
+    <mat-icon (click)="onNoClick()">close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="p-2 space-y-2">
+  <!--button-->
+
+  <div class="w-full flex items-center gap-2">
+    <div>
+      <button
+        class="primary-button xs:text-[12px] floating-button"
+        mat-raised-button
+        [disabled]="btndisable"
+        (click)="acceptData()"
+      >
+        Accept and Validate
+      </button>
+    </div>
+  </div>
+
+  <!--Rating-->
+
+  <div class="w-full gt-xs:flex items-center gap-2">
+    <div class="text-justify">
+      <span class="secondary-heading"
+        >Please enter the Rating of this Tour Site / Company:</span
+      >
+    </div>
+    <div class="w-[30%] xs:mt-3">
+      <form>
+        <mat-form-field
+          appearance="outline"
+          class="w-[95%] xs:w-full component--mat-form-field__custom-input component--mat-country_input__custom-style normal-text-heading"
+        >
+          <mat-select class="para-bold" required>
+            <mat-option
+              *ngFor="let city of city_1"
+              class="para-bold"
+              [value]="city"
+              (click)="optionData(city)"
+            >
+              {{ city.viewValue }}
+            </mat-option>
+          </mat-select>
+          <mat-error>Camp site is required</mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div>
+      <div class="cont">
+        <div class="stars">
+          <ngx-star-rating
+            [(ngModel)]="ratingsData"
+            [id]="'ratingsData'"
+            [disabled]="true"
+          ></ngx-star-rating>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--image with slider-->
+
+  <div>
+    <section class="product">
+      <div class="container-fluid">
+        <div
+          class="w-full"
+          style="position: relative; overflow: hidden; height: 350px"
+        >
+          <div
+            class="w-full space-y-2"
+            style="position: absolute; max-height: 70px"
+          >
+            <div class="w-full flex items-center justify-center">
+              <div class="w-full flex mt-[80px] items-center justify-center">
+                <img
+                  img
+                  class="shadow-box"
+                  [src]="imagedata[currentIndex]?.images || ''"
+                  style="cursor: pointer; max-height: 250px; max-width: 300px"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!--Button-->
+          <div class="button-area">
+            <img
+              src="../../../../../assets/icons/right-arrow.png"
+              alt=""
+              class="prev"
+              style="cursor: pointer"
+              prevdirective
+              (click)="appprev()"
+            />
+            <img
+              src="../../../../../assets/icons/left arrow.png"
+              alt=""
+              class="next"
+              style="cursor: pointer"
+              NextDirective
+              (click)="appnext()"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

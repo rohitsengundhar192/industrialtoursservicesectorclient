@@ -1,0 +1,24 @@
+<div class="h-[200px] w-200px flex justify-center items-center mt-[30px]">
+    <div class="h-[250px] w-[400px] camera-color text-center flex">
+      <div
+        class="w-full my-auto items-center"
+        *ngIf="allow_access_camera"
+        (click)="display_camera()"
+      >
+        Allow access to the camera to enable QR Code Scanning
+      </div>
+      <div
+        class="h-[250px] w-[400px]"
+        *ngIf="!allow_access_camera"
+        (click)="handle(action, 'stop'); display_camera()"
+      >
+        <ngx-scanner-qrcode
+          [isAuto]="true"
+          #action="scanner"
+          (error)="onError($event)"
+          (event)="onEvent($event)"
+        >
+        </ngx-scanner-qrcode>
+      </div>
+    </div>
+  </div>
